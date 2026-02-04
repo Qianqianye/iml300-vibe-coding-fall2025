@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>IML 300 Fall 2025 Vibe Coding Portfolio</title>
+  <title>IML300 Fall 2025 Vibe Coding Showcase</title>
   <meta name="description" content="A collection of student vibe coding experiments from IML 300 Fall 2025">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -141,6 +141,24 @@
       }
     }
 
+    /* Intro */
+    .intro {
+      margin-top: 1.5rem;
+      margin-bottom: 2rem;
+      font-size: 1rem;
+      color: #1a1a2e;
+      line-height: 1.8;
+      max-width: 800px;
+    }
+
+    .intro p {
+      margin-bottom: 1rem;
+    }
+
+    .intro p:last-child {
+      margin-bottom: 0;
+    }
+
     /* Sections */
     .experiments {
       display: flex;
@@ -266,7 +284,12 @@
     <main>
       <div class="main-content">
         <header>
-          <h1>IML 300 Fall 2025 Vibe Coding Portfolio</h1>
+          <h1>IML300 Fall 2025 Vibe Coding Showcase</h1>
+          <div class="intro">
+            <p>IML 300: Introduction to Creative Web Programming is an introductory creative coding course in the Media Arts + Practice program at USC. The course teaches the web as a creative medium while engaging critically with contemporary cultural and technological issues.</p>
+            <p>Throughout the semester, students learn two parallel ways of coding: manual coding assignments that build foundational skills, and weekly vibe coding exercises, where students use AI-assisted tools (such as Claude, Lovable, and Vercel's v0) to quickly create websites in response to readings, videos, or podcasts on topics like surveillance, digital decolonization, and internet culture.</p>
+            <p>These vibe coding projects emphasize intuition and experimentation rather than polish, while also encouraging critical reflection on AI aesthetics, the production of "AI slop," authorship, and the social and environmental impacts of AI. This site brings together those weekly experiments as a snapshot of how students explore, question, and reimagine creative coding on the web.</p>
+          </div>
         </header>
         <div class="experiments" id="experiments"></div>
       </div>
@@ -274,6 +297,9 @@
   </div>
 
   <script>
+    console.log("[v0] Intro element:", document.querySelector('.intro'));
+    console.log("[v0] Intro text:", document.querySelector('.intro')?.innerText?.substring(0, 100));
+    
     function formatStudentName(fullName) {
       const parts = fullName.trim().split(" ");
       if (parts.length < 2) return fullName;
