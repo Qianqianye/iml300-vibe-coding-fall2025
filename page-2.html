@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IML300 Fall 2025 Vibe Coding Showcase</title>
+  <meta name="description" content="A collection of student vibe coding experiments from IML 300 Fall 2025">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- FULLSCREEN HERO -->
+  <div class="hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <h1>IML300 Fall 2025<br>Vibe Coding Showcase</h1>
+      <p class="hero-subtitle">Media Arts + Practice · USC</p>
+    </div>
+    <a class="scroll-arrow" href="#main-content" aria-label="Scroll down">
+      <span>Scroll</span>
+      <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+    </a>
+  </div>
+
+  <div id="main-content" class="container">
+    <nav>
+      <div class="nav-content">
+        <h3>Experiments</h3>
+        <ul id="nav-list"></ul>
+      </div>
+    </nav>
+
+    <main>
+      <div class="main-content">
+        <header>
+          <div class="intro">
+            <p>IML 300: Introduction to Creative Web Programming is an introductory creative coding course in the Media Arts + Practice program at USC. The course teaches the web as a creative medium while engaging critically with contemporary cultural and technological issues.</p>
+            <p>Throughout the semester, students learn two parallel ways of coding: manual coding assignments that build foundational skills, and weekly vibe coding exercises, where students use AI-assisted tools (such as Claude, Lovable, and Vercel's v0) to quickly create websites in response to readings, videos, or podcasts on topics like surveillance, digital decolonization, and internet culture.</p>
+            <p>These vibe coding projects emphasize intuition and experimentation rather than polish, while also encouraging critical reflection on AI aesthetics, the production of "AI slop," authorship, and the social and environmental impacts of AI. This site brings together those weekly experiments as a snapshot of how students explore, question, and reimagine creative coding on the web.</p>
+          </div>
+        </header>
+        <div class="experiments" id="experiments"></div>
+      </div>
+    </main>
+  </div>
+
+  <!-- IFRAME MODAL -->
+  <div class="modal-overlay" id="modal" role="dialog" aria-modal="true">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div class="modal-header-info">
+          <span class="modal-student" id="modal-student"></span>
+          <span class="modal-title-text" id="modal-title-text"></span>
+        </div>
+        <div class="modal-actions">
+          <a class="modal-external-btn" id="modal-external" href="#" target="_blank" rel="noopener noreferrer">Open in new tab ↗</a>
+          <button class="modal-close" id="modal-close" aria-label="Close">✕</button>
+        </div>
+      </div>
+      <div class="modal-iframe-wrap">
+        <div class="modal-loading" id="modal-loading">
+          <div class="spinner"></div>
+          <span>Loading project…</span>
+        </div>
+        <div class="modal-blocked" id="modal-blocked">
+          <p>This project can't be embedded here — it may block iframes for security reasons.</p>
+          <a id="modal-blocked-link" href="#" target="_blank" rel="noopener noreferrer">Open project directly ↗</a>
+        </div>
+        <iframe id="modal-iframe" title="Project preview" sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
