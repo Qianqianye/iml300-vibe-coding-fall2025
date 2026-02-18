@@ -323,12 +323,15 @@ experiments.forEach((experiment, idx) => {
 });
 
 // ── Smooth scroll arrow ────────────────────────────────────────────────────────
-document.querySelector('.scroll-arrow').addEventListener('click', (e) => {
-  e.preventDefault();
-  document.getElementById('main-content').scrollIntoView({ behavior: 'smooth' });
-});
+const scrollArrow = document.querySelector('.scroll-arrow');
+if (scrollArrow) {
+  scrollArrow.addEventListener('click', (e) => {
+    e.preventDefault();
+    document.getElementById('main-content').scrollIntoView({ behavior: 'smooth' });
+  });
+}
 
-// ── Modal logic ────────────────────────────────────────────────────────────────
+// ── Modal logic ───────────────────────────────────────────────────────────────
 const modal          = document.getElementById('modal');
 const modalIframe    = document.getElementById('modal-iframe');
 const modalClose     = document.getElementById('modal-close');
@@ -339,22 +342,42 @@ const modalLoading   = document.getElementById('modal-loading');
 const modalBlocked   = document.getElementById('modal-blocked');
 const modalBlockedLink = document.getElementById('modal-blocked-link');
 
-// Domains known to send X-Frame-Options: DENY / SAMEORIGIN
-const blockedDomains = [
-  'v0.app', 'replit.com', 'lovable.dev',
-  'are.na', 'instagram.com',
-  'youtube.com', 'youtu.be', 'vimeo.com',
-];
-
-function isLikelyBlocked(url) {
+/**
+ * Convert some known URLs to their embed equivalents when possible.
+ * This helps with YouTube / Vimeo links that otherwise redirect to watch pages.
+ */
+function toEmbedUrl(originalUrl) {
   try {
-    const hostname = new URL(url).hostname;
-    return blockedDomains.some(d => hostname.includes(d));
+    const u = new URL(originalUrl);
+    const host = u.hostname.toLowerCase();
+
+    // YouTube: https://www.youtube.com/watch?v=ID  ->  https://www.youtube.com/embed/ID
+    if (host.includes('youtube.com') && u.searchParams.has('v')) {
+      const id = u.searchParams.get('v');
+      return `https://www.youtube.com/embed/${id}`;
+    }
+
+    // Short yt links: https://youtu.be/ID -> https://www.youtube.com/embed/ID
+    if (host === 'youtu.be') {
+      const id = u.pathname.slice(1);
+      if (id) return `https://www.youtube.com/embed/${id}`;
+    }
+
+    // Vimeo: https://vimeo.com/ID -> https://player.vimeo.com/video/ID
+    if (host.includes('vimeo.com') && /^\/\d+/.test(u.pathname)) {
+      const id = u.pathname.split('/').filter(Boolean)[0];
+      return `https://player.vimeo.com/video/${id}`;
+    }
+
+    // lovabled/v0/app links and some other providers often don't support embedding;
+    // we leave them alone here (we attempt to load and then fall back if blocked).
+    return originalUrl;
   } catch {
-    return false;
+    return originalUrl;
   }
 }
 
+// Replace your openModal and related handlers with this version
 function openModal(url, student, title) {
   modalStudent.textContent   = student;
   modalTitleText.textContent = title;
@@ -369,30 +392,36 @@ function openModal(url, student, title) {
   modal.classList.add('active');
   document.body.style.overflow = 'hidden';
 
-  if (isLikelyBlocked(url)) {
-    modalLoading.style.display = 'none';
-    modalBlocked.classList.add('show');
-    return;
-  }
+  // Convert to embed-friendly URL when we can (YouTube, Vimeo)
+  const tryUrl = toEmbedUrl(url);
 
-  modalIframe.src = url;
+  // Set src to tryUrl
+  // Use a tiny delay to ensure any prior src change has settled (optional)
+  modalIframe.src = tryUrl;
 
-  // Fallback: hide spinner after 8 s whether or not onload fired
+  // Clear any previous handlers to avoid duplicated behavior
+  modalIframe.onload = null;
+  modalIframe.onerror = null;
+
+  // Fallback: hide spinner after 8s whether or not onload fired
   const loadTimer = setTimeout(() => {
     modalLoading.style.display = 'none';
+    // If neither onload nor onerror fired after timeout, treat as blocked/unembeddable
+    // (this covers slow networks or servers that intentionally block framing via headers)
+    if (!modalIframe.dataset.loaded) {
+      modalBlocked.classList.add('show');
+    }
   }, 8000);
 
+  // onload: iframe reported loaded — assume embedding succeeded.
   modalIframe.onload = () => {
     clearTimeout(loadTimer);
     modalLoading.style.display = 'none';
-    // Try reading contentWindow — throws if blocked by X-Frame-Options
-    try {
-      void modalIframe.contentWindow.location.href;
-    } catch {
-      modalBlocked.classList.add('show');
-    }
+    modalIframe.dataset.loaded = '1'; // mark as loaded
+    modalBlocked.classList.remove('show');
   };
 
+  // onerror: failed to load (network error or blocked)
   modalIframe.onerror = () => {
     clearTimeout(loadTimer);
     modalLoading.style.display = 'none';
@@ -403,8 +432,13 @@ function openModal(url, student, title) {
 function closeModal() {
   modal.classList.remove('active');
   document.body.style.overflow = '';
-  // Clear iframe after transition
-  setTimeout(() => { modalIframe.src = ''; }, 300);
+  // Clear iframe after small delay to allow the modal closing animation to run
+  setTimeout(() => { 
+    try { 
+      modalIframe.src = 'about:blank';
+      delete modalIframe.dataset.loaded;
+    } catch {}
+  }, 300);
 }
 
 // Event delegation — project cards
@@ -421,6 +455,7 @@ document.getElementById('experiments').addEventListener('keydown', (e) => {
 });
 
 // Close triggers
-modalClose.addEventListener('click', closeModal);
-modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+if (modalClose) modalClose.addEventListener('click', closeModal);
+if (modal) modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+
