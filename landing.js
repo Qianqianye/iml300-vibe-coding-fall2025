@@ -35,7 +35,7 @@
   const items = [];
 
   function spawnItem() {
-    const size = 88 + Math.random() * 48;
+    const size = 160 + Math.random() * 120;
     const x = 80 + Math.random() * (W - 160);
     const url = imageUrls[Math.floor(Math.random() * imageUrls.length)];
 

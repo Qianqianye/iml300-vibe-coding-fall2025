@@ -1,3 +1,10 @@
+/* =====================================================================
+   combined.css
+   Landing page styles  →  style.css
+   About / experiments  →  about.css
+   ===================================================================== */
+
+/* ===== CSS VARIABLES ===== */
 :root {
   --background: hsl(0 0% 100%);
   --foreground: hsl(215 25% 18%);
@@ -5,50 +12,283 @@
   --card-foreground: #0a0a0a;
   --primary: hsl(215 45% 32%);
   --primary-foreground: #fafafa;
-  --secondary: hsl(215 15% 93%);
   --muted: hsl(215 15% 93%);
   --muted-foreground: #717171;
   --border: hsl(215 18% 88%);
+  /* accent tokens used by about page */
+  --accent: #cf8e59;
+  --accent2: #e05c5c;
 }
 
-/* reset */
+/* ===== RESET ===== */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
-  font-family: 'Geist Mono', monospace;
+  font-family: "Inconsolata", monospace;
   background-color: var(--muted);
   color: var(--foreground);
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
 }
 
-/* ===== FULLSCREEN HERO ===== */
+a {
+  font-style: italic;
+  text-decoration: none;
+}
+
+/* =====================================================================
+   LANDING PAGE
+   ===================================================================== */
+
+/* Fullscreen body mode for the landing page */
+body.landing-page {
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background: #050509;
+}
+
+/* Falling images (DOM-synced with physics) */
+.landing-falling-img {
+  filter: brightness(0.4) contrast(0.95) saturate(0.95);
+  position: fixed;
+  left: 0;
+  top: 0;
+  object-fit: cover;
+  border-radius: 4px;
+  pointer-events: none;
+  z-index: 3;
+  border: 1.5px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 6px 28px rgba(0, 0, 0, 0.5);
+  transform-origin: center;
+  will-change: transform, left, top;
+}
+
+/* Background image layer — keep fixed so pseudo-element uses viewport */
+.landing-bg {
+  position: fixed;
+  z-index: 0;
+}
+
+/* Grain texture overlay */
+.landing-grain {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.055;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 128px 128px;
+}
+
+/* UI overlay */
+.landing-ui {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+/* Claude-style centered panel */
+.landing-claude-panel {
+  pointer-events: all;
+  width: min(680px, 90vw);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0;
+  opacity: 0;
+  transform: translateY(18px);
+  animation: landingFadeUp 0.85s cubic-bezier(0.22, 1, 0.36, 1) forwards 0.3s;
+}
+
+@keyframes landingFadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Eyebrow label */
+.landing-eyebrow {
+  font-family: "Inconsolata", monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 1.5rem;
+}
+
+/* Main heading */
+.landing-heading {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-size: clamp(1.9rem, 4.5vw, 3.2rem);
+  font-weight: 400;
+  line-height: 1.25;
+  color: rgba(255, 255, 255, 1);
+  letter-spacing: -0.01em;
+  margin-bottom: 2.25rem;
+}
+
+/* Fake prompt input bar */
+.landing-input-wrap {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1.5px solid rgba(255, 255, 255, 0.14);
+  border-radius: 14px;
+  padding: 1rem 1rem 1rem 1.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow:
+    0 4px 32px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  margin-bottom: 1.25rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.landing-input-wrap:hover {
+  border-color: rgba(255, 255, 255, 0.26);
+  box-shadow: 0 4px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.landing-input-text {
+  font-family: "Inconsolata", monospace;
+  font-size: 0.92rem;
+  color: rgba(255, 255, 255, 0.5);
+  flex: 1;
+  text-align: left;
+  letter-spacing: 0.01em;
+}
+
+/* Send button */
+.landing-send-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: rgba(207, 142, 89, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  text-decoration: none;
+  flex-shrink: 0;
+  transition: background 0.2s, transform 0.15s;
+  box-shadow: 0 2px 8px rgba(207, 142, 89, 0.4);
+}
+
+.landing-send-btn:hover {
+  background: rgba(207, 142, 89, 1);
+  transform: scale(1.07);
+}
+
+/* Suggestion chips */
+.landing-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+.landing-chip {
+  font-family: "Inconsolata", monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.03em;
+  color: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 99px;
+  padding: 0.45rem 1rem;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  transition: background 0.18s, color 0.18s, border-color 0.18s;
+  white-space: nowrap;
+}
+
+.landing-chip:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.85);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+/* =====================================================================
+   SHARED HERO (used on both landing & about pages, context differs)
+   ===================================================================== */
+
 .hero {
   position: relative;
   width: 100%;
   height: 100vh;
+  display: flex;
+  align-items: flex-end;
+}
+
+/* Landing hero uses a placeholder image background */
+body.landing-page .hero {
   background-image: url('https://placehold.co/1600x900/1a1a2e/1a1a2e');
   background-size: cover;
   background-position: center;
-  display: flex;
-  align-items: flex-end;
+}
+
+/* About hero uses a solid dark background + physics canvas */
+body:not(.landing-page) .hero {
+  background: #050918;
+  overflow: hidden;
 }
 
 .hero-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.75) 100%);
+  pointer-events: none;
+}
+
+/* Landing overlay */
+body.landing-page .hero-overlay {
+  z-index: 1;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.15) 0%, rgba(0, 0, 0, 0.75) 100%);
+}
+
+/* About overlay */
+body:not(.landing-page) .hero-overlay {
+  z-index: 2;
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 80%, rgba(9, 30, 66, 0.7) 0%, transparent 70%),
+    linear-gradient(to bottom, rgba(5, 9, 24, 0.1) 0%, rgba(5, 9, 24, 0.75) 100%);
+}
+
+/* Physics canvas (about page only) */
+#matter-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  pointer-events: all;
 }
 
 .hero-content {
   position: relative;
-  z-index: 1;
+  z-index: 4;
   padding: 2rem 2rem 6rem;
   width: 100%;
+  pointer-events: none;
 }
 
 @media (min-width: 768px) {
@@ -57,7 +297,8 @@ body {
   }
 }
 
-.hero-content h1 {
+/* Landing hero heading */
+body.landing-page .hero-content h1 {
   font-family: 'Georgia', 'Times New Roman', serif;
   font-size: clamp(2rem, 5vw, 4rem);
   font-weight: 400;
@@ -66,7 +307,23 @@ body {
   letter-spacing: -0.01em;
 }
 
-.hero-subtitle {
+/* About hero heading */
+body:not(.landing-page) .hero-content h1 {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-size: clamp(2.2rem, 6vw, 5rem);
+  font-weight: 400;
+  color: #ffffff;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+body:not(.landing-page) .hero-content h1 .line2 {
+  display: block;
+  color: var(--accent);
+}
+
+/* Hero subtitle — landing */
+body.landing-page .hero-subtitle {
   margin-top: 0.75rem;
   font-size: 0.875rem;
   color: rgba(255, 255, 255, 0.7);
@@ -74,7 +331,44 @@ body {
   text-transform: uppercase;
 }
 
-/* ===== BOUNCING SCROLL ARROW ===== */
+/* Hero subtitle — about */
+body:not(.landing-page) .hero-subtitle {
+  margin-top: 1rem;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.6);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+body:not(.landing-page) .hero-subtitle::before {
+  content: '';
+  display: inline-block;
+  width: 32px;
+  height: 1px;
+  background: var(--accent);
+}
+
+/* Floating hero badges (about page) */
+.hero-badge {
+  position: absolute;
+  z-index: 4;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.4rem 0.8rem;
+  border-radius: 99px;
+  backdrop-filter: blur(8px);
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+/* ===== BOUNCING SCROLL ARROW (shared) ===== */
 .scroll-arrow {
   position: absolute;
   bottom: 2rem;
@@ -87,9 +381,9 @@ body {
   align-items: center;
   gap: 0.4rem;
   text-decoration: none;
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(255, 255, 255, 0.7);
   transition: color 0.2s;
-  animation: bounce 2s ease-in-out infinite;
+  animation: bounce 2.5s ease-in-out infinite;
 }
 
 .scroll-arrow:hover {
@@ -97,15 +391,15 @@ body {
 }
 
 .scroll-arrow span {
-  font-family: 'Geist Mono', monospace;
+  font-family: "Inconsolata", monospace;
   font-size: 0.65rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }
 
 .scroll-arrow svg {
-  width: 28px;
-  height: 28px;
+  width: 26px;
+  height: 26px;
   stroke: currentColor;
   stroke-width: 1.5;
   fill: none;
@@ -113,10 +407,93 @@ body {
 
 @keyframes bounce {
   0%, 100% { transform: translateX(-50%) translateY(0); }
-  50%      { transform: translateX(-50%) translateY(10px); }
+  50%       { transform: translateX(-50%) translateY(10px); }
 }
 
-/* ===== LAYOUT ===== */
+/* =====================================================================
+   MARQUEE STRIP (about page)
+   ===================================================================== */
+
+.marquee-strip {
+  position: relative;
+  z-index: 5;
+  background: var(--primary);
+  color: #fff;
+  overflow: hidden;
+  padding: 0.6rem 0;
+  white-space: nowrap;
+}
+
+.marquee-strip-inner {
+  display: inline-flex;
+  animation: marqueeScroll 24s linear infinite;
+  gap: 0;
+}
+
+.marquee-strip-inner span {
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0 2rem;
+}
+
+.marquee-strip-inner span.sep {
+  opacity: 0.4;
+  padding: 0;
+}
+
+@keyframes marqueeScroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* =====================================================================
+   CUSTOM CURSOR (about page)
+   ===================================================================== */
+
+.cursor-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--accent);
+  border-radius: 50%;
+  position: fixed;
+  top: 0; left: 0;
+  pointer-events: none;
+  z-index: 99999;
+  transform: translate(-50%, -50%);
+  transition: width 0.2s, height 0.2s, background 0.2s;
+  mix-blend-mode: multiply;
+}
+
+.cursor-ring {
+  width: 36px;
+  height: 36px;
+  border: 1.5px solid var(--accent);
+  border-radius: 50%;
+  position: fixed;
+  top: 0; left: 0;
+  pointer-events: none;
+  z-index: 99998;
+  transform: translate(-50%, -50%);
+  transition: transform 0.12s ease, width 0.25s, height 0.25s, border-color 0.2s;
+  mix-blend-mode: multiply;
+}
+
+body:has(.project-card:hover) .cursor-ring {
+  width: 80px;
+  height: 80px;
+  border-color: var(--primary);
+}
+
+body:has(.project-card:hover) .cursor-dot {
+  width: 4px;
+  height: 4px;
+}
+
+/* =====================================================================
+   LAYOUT
+   ===================================================================== */
+
 .container {
   display: flex;
   min-height: 100vh;
@@ -133,15 +510,16 @@ nav {
   overflow-y: auto;
 }
 
-@media (min-width: 1024px) {
-  nav {
-    display: block;
-  }
+/* About page nav is slightly narrower */
+body:not(.landing-page) nav {
+  width: 240px;
 }
 
-nav .nav-content {
-  padding: 1.5rem;
+@media (min-width: 1024px) {
+  nav { display: block; }
 }
+
+nav .nav-content { padding: 1.5rem; }
 
 nav h3 {
   font-size: 0.875rem;
@@ -152,13 +530,13 @@ nav h3 {
   letter-spacing: 0.05em;
 }
 
-nav ul {
-  list-style: none;
+body:not(.landing-page) nav h3 {
+  font-size: 0.9rem;
+  letter-spacing: 0.1em;
 }
 
-nav li {
-  margin-bottom: 0.5rem;
-}
+nav ul { list-style: none; }
+nav li { margin-bottom: 0.5rem; }
 
 nav a {
   display: block;
@@ -169,8 +547,24 @@ nav a {
   transition: color 0.2s;
 }
 
+/* About nav link styling */
+body:not(.landing-page) nav a {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  padding: 0.3rem 0.5rem;
+  border-radius: 4px;
+  transition: color 0.15s, background 0.15s;
+  font-style: normal;
+}
+
 nav a:hover {
   color: var(--primary);
+}
+
+body:not(.landing-page) nav a:hover {
+  background: rgba(0, 0, 0, 0.04);
 }
 
 nav .experiment-number {
@@ -178,15 +572,20 @@ nav .experiment-number {
   margin-right: 0.5rem;
 }
 
+body:not(.landing-page) nav .experiment-number {
+  flex-shrink: 0;
+  font-size: 0.8rem;
+  margin-right: 0;
+}
+
 main {
   flex: 1;
   padding: 1rem;
+  min-width: 0;
 }
 
 @media (min-width: 768px) {
-  main {
-    padding: 2rem;
-  }
+  main { padding: 2rem; }
 }
 
 .main-content {
@@ -194,33 +593,136 @@ main {
   margin: 0 auto;
 }
 
-header {
-  margin-bottom: 3rem;
-  border-bottom: 2px solid var(--primary);
-  padding-bottom: 2rem;
+/* =====================================================================
+   ABOUT / HEADER SECTION
+   ===================================================================== */
+
+#about {
+  position: relative;
+  background: var(--muted);
+  overflow: hidden;
+  padding-top: 4rem;
 }
 
-.intro {
-  margin-top: 1.5rem;
-  margin-bottom: 2rem;
-  font-size: 1rem;
-  color: #1a1a2e;
-  line-height: 1.8;
+/* Animated rainbow top border (about page) */
+body:not(.landing-page) #about::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary), var(--accent), var(--accent2), var(--primary));
+  background-size: 200% 100%;
+  animation: shimmer 4s linear infinite;
+}
+
+@keyframes shimmer {
+  from { background-position: 0% 0; }
+  to   { background-position: 200% 0; }
+}
+
+header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+  border-bottom: 2px solid var(--primary);
+  padding-bottom: 3.5rem;
+}
+
+/* About page adds extra top padding to header */
+body:not(.landing-page) header {
+  padding: 4rem 2rem 3.5rem;
+  margin-bottom: 0;
+}
+
+body:not(.landing-page) header h2 {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  color: var(--foreground);
+  width: 100%;
   max-width: 800px;
 }
 
-.intro p {
-  margin-bottom: 1rem;
+.intro {
+  display: block;
+  text-align: left;
+  max-width: 800px;
+  width: 100%;
+  margin: 0 auto;
+  color: #1a1a2e;
+  line-height: 1.85;
 }
 
-.intro p:last-child {
-  margin-bottom: 0;
+.intro p { margin-bottom: 1rem; }
+.intro p:last-child { margin-bottom: 0; }
+
+/* ===== READ MORE / ABOUT BUTTON ===== */
+.about-btn,
+.button.about-btn {
+  appearance: none;
+  background: transparent;
+  border: 1.5px solid var(--primary);
+  color: var(--primary);
+  padding: 0.65rem 1.6rem;
+  font-family: "Inconsolata", monospace;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.18s ease, color 0.18s ease, transform 0.15s ease;
+  font-style: normal;
 }
+
+/* About page refines slightly */
+body:not(.landing-page) .button.about-btn {
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+}
+
+.about-btn:hover,
+.button.about-btn:hover {
+  background: var(--primary);
+  color: var(--primary-foreground);
+  transform: translateY(-2px);
+}
+
+.about-btn:active,
+.button.about-btn:active {
+  transform: translateY(0);
+}
+
+.about-btn:focus-visible,
+.button.about-btn:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--primary) 35%, white 65%);
+  outline-offset: 3px;
+}
+
+@media (max-width: 420px) {
+  .about-btn,
+  .button.about-btn {
+    padding: 0.6rem 1rem;
+    border-radius: 10px;
+    font-size: 0.82rem;
+  }
+}
+
+/* =====================================================================
+   EXPERIMENTS SECTION
+   ===================================================================== */
 
 .experiments {
   display: flex;
   flex-direction: column;
   gap: 4rem;
+  padding-top: 1rem;
+}
+
+body:not(.landing-page) .experiments {
+  gap: 5rem;
 }
 
 section {
@@ -229,9 +731,7 @@ section {
   scroll-margin-top: 2rem;
 }
 
-section:last-child {
-  border-bottom: none;
-}
+section:last-child { border-bottom: none; }
 
 section h2 {
   font-family: 'Georgia', 'Times New Roman', serif;
@@ -240,11 +740,57 @@ section h2 {
   color: var(--foreground);
   margin-bottom: 1rem;
   letter-spacing: -0.01em;
+  position: relative;
 }
 
+/* Experiment number badge (about page) */
+.experiment-num-badge {
+  display: block;
+  width: fit-content;
+  font-family: "Inconsolata", monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: rgba(207, 142, 89, 0.1);
+  border: 1px solid rgba(207, 142, 89, 0.3);
+  padding: 0.2rem 0.6rem;
+  border-radius: 3px;
+  margin-bottom: 0.6rem;
+}
+
+/* Section meta chips (about page) */
+.section-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.meta-chip {
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+  background: rgba(0, 0, 0, 0.05);
+  padding: 0.2rem 0.6rem;
+  border-radius: 3px;
+}
+
+/* ===== REFERENCES ===== */
 .references {
   margin-bottom: 2rem;
   font-size: 0.875rem;
+}
+
+/* About page references get a styled border treatment */
+body:not(.landing-page) .references {
+  font-size: 0.8rem;
+  background: rgba(0, 0, 0, 0.03);
+  border-left: 2px solid var(--accent);
+  padding: 0.75rem 1rem;
+  border-radius: 0 4px 4px 0;
 }
 
 .references p {
@@ -253,12 +799,26 @@ section h2 {
   margin-bottom: 0.5rem;
 }
 
-.references ul {
-  list-style: none;
+body:not(.landing-page) .references p {
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-size: 1rem;
 }
 
-.references li {
-  margin-bottom: 0.25rem;
+.references ul { list-style: none; }
+
+body:not(.landing-page) .references ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.references li { margin-bottom: 0.25rem; }
+
+body:not(.landing-page) .references li {
+  display: inline;
+  margin-bottom: 0;
 }
 
 .references a {
@@ -266,9 +826,27 @@ section h2 {
   text-decoration: none;
 }
 
-.references a:hover {
-  text-decoration: underline;
+.references a:hover { text-decoration: underline; }
+
+body:not(.landing-page) .references a {
+  font-style: normal;
+  border: 1px solid rgba(50, 82, 128, 0.3);
+  padding: 0.2rem 0.6rem;
+  border-radius: 3px;
+  font-size: 0.8rem;
+  transition: background 0.15s, color 0.15s;
+  text-decoration: none;
 }
+
+body:not(.landing-page) .references a:hover {
+  background: var(--primary);
+  color: #fff;
+  text-decoration: none;
+}
+
+/* =====================================================================
+   PROJECT CARDS
+   ===================================================================== */
 
 .projects-grid {
   display: grid;
@@ -277,24 +855,26 @@ section h2 {
 }
 
 @media (min-width: 640px) {
-  .projects-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+  .projects-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (min-width: 1024px) {
-  .projects-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
+  .projects-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+body:not(.landing-page) .projects-grid {
+  gap: 0.85rem;
 }
 
 .project-card {
   text-decoration: none;
   display: block;
   cursor: pointer;
+  position: relative;
 }
 
-.project-card .card {
+/* Landing card */
+body.landing-page .project-card .card {
   background-color: var(--card);
   border: 2px solid var(--background);
   padding: 1rem;
@@ -303,29 +883,110 @@ section h2 {
   transition: border-color 0.2s, transform 0.15s, box-shadow 0.2s;
 }
 
-.project-card:hover .card {
+body.landing-page .project-card:hover .card {
   border-color: var(--primary);
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
 }
 
-.project-card .student-name {
+/* About card */
+body:not(.landing-page) .card {
+  background-color: var(--card);
+  border: 1.5px solid var(--border);
+  padding: 1.1rem 1.1rem 1rem;
+  border-radius: 8px;
+  height: 100%;
+  transition: border-color 0.25s, transform 0.2s, box-shadow 0.25s;
+  position: relative;
+  overflow: hidden;
+  min-height: 90px;
+}
+
+/* Image hover fill (about) */
+.card-img-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  z-index: 0;
+}
+
+.card-content {
+  position: relative;
+  z-index: 1;
+  transition: color 0.3s;
+}
+
+/* Dark overlay when image is visible (about) */
+body:not(.landing-page) .card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(5, 9, 24, 0.78) 0%, rgba(5, 9, 24, 0.55) 100%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  z-index: 0;
+  border-radius: 6px;
+}
+
+body:not(.landing-page) .project-card:hover .card {
+  border-color: var(--primary);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.14);
+}
+
+body:not(.landing-page) .project-card:hover .card-img-bg {
+  opacity: 1;
+}
+
+body:not(.landing-page) .project-card:hover .card::after {
+  opacity: 1;
+}
+
+/* Student name */
+.student-name {
   font-weight: 600;
   color: var(--card-foreground);
   margin-bottom: 0.25rem;
   transition: color 0.2s;
 }
 
+body:not(.landing-page) .student-name {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 0.2rem;
+  transition: color 0.3s;
+  font-style: normal;
+}
+
 .project-card:hover .student-name {
   color: var(--primary);
 }
 
-.project-card .project-title {
+body:not(.landing-page) .project-card:hover .student-name {
+  color: #fff;
+}
+
+/* Project title */
+.project-title {
   font-size: 0.875rem;
   color: var(--muted-foreground);
 }
 
-.project-card .open-hint {
+body:not(.landing-page) .project-title {
+  font-size: 0.9rem;
+  transition: color 0.3s;
+  font-style: normal;
+}
+
+body:not(.landing-page) .project-card:hover .project-title {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+/* Open hint */
+.open-hint {
   margin-top: 0.5rem;
   font-size: 0.7rem;
   color: var(--primary);
@@ -335,11 +996,23 @@ section h2 {
   letter-spacing: 0.06em;
 }
 
+body:not(.landing-page) .open-hint {
+  margin-top: 0.6rem;
+  font-size: 0.65rem;
+  color: var(--accent);
+  transition: opacity 0.25s;
+  letter-spacing: 0.1em;
+  font-style: normal;
+}
+
 .project-card:hover .open-hint {
   opacity: 1;
 }
 
-/* ===== IFRAME MODAL ===== */
+/* =====================================================================
+   IFRAME MODAL (shared, about page has slightly elevated shadow)
+   ===================================================================== */
+
 .modal-overlay {
   display: none;
   position: fixed;
@@ -351,6 +1024,12 @@ section h2 {
   align-items: center;
   justify-content: center;
   padding: 1rem;
+}
+
+body:not(.landing-page) .modal-overlay {
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 .modal-overlay.active {
@@ -374,6 +1053,12 @@ section h2 {
   overflow: hidden;
   box-shadow: 0 24px 80px rgba(0, 0, 0, 0.4);
   animation: slideUp 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+body:not(.landing-page) .modal-box {
+  border-radius: 12px;
+  box-shadow: 0 32px 100px rgba(0, 0, 0, 0.5);
+  animation: slideUp 0.28s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 @keyframes slideUp {
@@ -415,10 +1100,11 @@ section h2 {
 }
 
 .modal-external-btn {
-  font-family: 'Geist Mono', monospace;
+  font-family: "Inconsolata", monospace;
   font-size: 0.75rem;
   color: var(--primary);
   text-decoration: none;
+  font-style: normal;
   border: 1.5px solid var(--primary);
   padding: 0.3rem 0.7rem;
   border-radius: 6px;
@@ -448,9 +1134,7 @@ section h2 {
   line-height: 1;
 }
 
-.modal-close:hover {
-  background: var(--border);
-}
+.modal-close:hover { background: var(--border); }
 
 .modal-iframe-wrap {
   flex: 1;
@@ -486,9 +1170,7 @@ section h2 {
   animation: spin 0.8s linear infinite;
 }
 
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
+@keyframes spin { to { transform: rotate(360deg); } }
 
 .modal-blocked {
   display: none;
@@ -503,9 +1185,7 @@ section h2 {
   background: var(--muted);
 }
 
-.modal-blocked.show {
-  display: flex;
-}
+.modal-blocked.show { display: flex; }
 
 .modal-blocked p {
   font-size: 0.875rem;
@@ -515,8 +1195,9 @@ section h2 {
 }
 
 .modal-blocked a {
-  font-family: 'Geist Mono', monospace;
+  font-family: "Inconsolata", monospace;
   font-size: 0.8rem;
+  font-style: normal;
   color: #fff;
   background: var(--primary);
   text-decoration: none;
@@ -525,205 +1206,7 @@ section h2 {
   transition: opacity 0.15s;
 }
 
-.modal-blocked a:hover {
-  opacity: 0.85;
-}
-
-/* ==============================================
-   LANDING PAGE
-   ============================================== */
-
-body.landing-page {
-  width: 100%;
-  height: 100vh;
-  overflow: hidden;
-  background: #0d0d1a;
-}
-
-/* Background image */
-.landing-bg {
-  position: fixed;
-  inset: 0;
-  background-image: url('https://placehold.co/1600x900/0d0d1a/0d0d1a');
-  background-size: cover;
-  background-position: center;
-  filter: brightness(0.5);
-  z-index: 0;
-}
-
-/* Grain texture overlay */
-/* data URI is percent-encoded for safe CSS embedding */
-.landing-grain {
-  position: fixed;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  opacity: 0.055;
-  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-  background-repeat: repeat;
-  background-size: 128px 128px;
-}
-
-/* Falling images (DOM-synced with physics) */
-.landing-falling-img {
-  position: fixed;
-  object-fit: cover;
-  border-radius: 4px;
-  pointer-events: none;
-  z-index: 3;
-  border: 1.5px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 6px 28px rgba(0, 0, 0, 0.5);
-}
-
-/* UI overlay — centered like Claude */
-.landing-ui {
-  position: fixed;
-  inset: 0;
-  z-index: 10;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  pointer-events: none;
-}
-
-/* Claude-style centered panel */
-.landing-claude-panel {
-  pointer-events: all;
-  width: min(680px, 90vw);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  gap: 0;
-  opacity: 0;
-  transform: translateY(18px);
-  animation: landingFadeUp 0.85s cubic-bezier(0.22, 1, 0.36, 1) forwards 0.3s;
-}
-
-/* Eyebrow label */
-.landing-eyebrow {
-  font-family: 'Geist Mono', monospace;
-  font-size: 0.7rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.38);
-  margin-bottom: 1.5rem;
-}
-
-/* Main heading — Claude’s warm greeting style */
-.landing-heading {
-  font-family: 'Georgia', 'Times New Roman', serif;
-  font-size: clamp(1.9rem, 4.5vw, 3.2rem);
-  font-weight: 400;
-  line-height: 1.25;
-  color: rgba(255, 255, 255, 0.92);
-  letter-spacing: -0.01em;
-  margin-bottom: 2.25rem;
-}
-
-/* Fake prompt input bar — Claude’s signature rounded box */
-.landing-input-wrap {
-  width: 100%;
-  background: rgba(255, 255, 255, 0.07);
-  border: 1.5px solid rgba(255, 255, 255, 0.14);
-  border-radius: 14px;
-  padding: 1rem 1rem 1rem 1.4rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  box-shadow:
-    0 4px 32px rgba(0,0,0,0.3),
-    inset 0 1px 0 rgba(255,255,255,0.08);
-  margin-bottom: 1.25rem;
-  transition: border-color 0.2s, box-shadow 0.2s;
-}
-
-.landing-input-wrap:hover {
-  border-color: rgba(255, 255, 255, 0.26);
-  box-shadow: 0 4px 40px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1);
-}
-
-.landing-input-text {
-  font-family: 'Geist Mono', monospace;
-  font-size: 0.92rem;
-  color: rgba(255, 255, 255, 0.35);
-  flex: 1;
-  text-align: left;
-  letter-spacing: 0.01em;
-}
-
-/* Send / enter button — Claude’s orange-ish circle */
-.landing-send-btn {
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
-  background: rgba(207, 142, 89, 0.85);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
-  text-decoration: none;
-  flex-shrink: 0;
-  transition: background 0.2s, transform 0.15s;
-  box-shadow: 0 2px 8px rgba(207, 142, 89, 0.4);
-}
-
-.landing-send-btn:hover {
-  background: rgba(207, 142, 89, 1);
-  transform: scale(1.07);
-}
-
-/* Suggestion chips — Claude’s quick-action pills */
-.landing-chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  justify-content: center;
-}
-
-.landing-chip {
-  font-family: 'Geist Mono', monospace;
-  font-size: 0.72rem;
-  letter-spacing: 0.03em;
-  color: rgba(255, 255, 255, 0.55);
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 99px;
-  padding: 0.45rem 1rem;
-  cursor: pointer;
-  text-decoration: none;
-  display: inline-block;
-  transition: background 0.18s, color 0.18s, border-color 0.18s;
-  white-space: nowrap;
-}
-
-.landing-chip:hover {
-  background: rgba(255, 255, 255, 0.12);
-  color: rgba(255, 255, 255, 0.85);
-  border-color: rgba(255, 255, 255, 0.25);
-}
-
-/* Bottom-right caption */
-.landing-bottom-bar {
-  position: fixed;
-  bottom: 2rem;
-  right: 3rem;
-  z-index: 10;
-  font-family: 'Geist Mono', monospace;
-  font-size: 0.62rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.22);
-  opacity: 0;
-  animation: landingFadeUp 0.8s ease forwards 1s;
-}
-
-@keyframes landingFadeUp {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
+.modal-blocked a:hover { opacity: 0.85; }
+/* =====================================================================
+   END OF combined.css
+   ===================================================================== */

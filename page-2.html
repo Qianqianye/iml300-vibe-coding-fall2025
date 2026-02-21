@@ -14,17 +14,35 @@
 
   <!-- FULLSCREEN HERO -->
   <div class="hero">
+    <canvas id="matter-canvas"></canvas>
     <div class="hero-overlay"></div>
     <div class="hero-content">
-      <h1>IML300 Fall 2025<br>Vibe Coding Showcase</h1>
-      <p class="hero-subtitle">Media Arts + Practice · USC</p>
+      <h1>IML300 Fall 2025<br><span class="line2">Vibe Coding Showcase</span></h1>
+      <p class="hero-subtitle">Media Arts + Practice · USC · 10 Experiments</p>
     </div>
-    <a class="scroll-arrow" href="#main-content" aria-label="Scroll down">
+    <a class="scroll-arrow" href="#about" aria-label="Scroll down">
       <span>Scroll</span>
       <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
         <polyline points="6 9 12 15 18 9"></polyline>
       </svg>
     </a>
+  </div>
+
+  <!-- MARQUEE STRIP -->
+  <div class="marquee-strip" aria-hidden="true">
+    <div class="marquee-strip-inner"></div>
+  </div>
+
+  <div id="about">
+    <header>
+      <h2>About the Course &amp; Showcase</h2>
+      <div class="intro">
+        <p>IML 300: Introduction to Creative Web Programming is an introductory creative coding course in the Media Arts + Practice program at USC. The course teaches the web as a creative medium while engaging critically with contemporary cultural and technological issues.</p>
+        <p>Throughout the semester, students learn two parallel ways of coding: manual coding assignments that build foundational skills, and weekly vibe coding exercises, where students use AI-assisted tools (such as Claude, Lovable, and Vercel's v0) to quickly create websites in response to readings, videos, or podcasts on topics like surveillance, digital decolonization, and internet culture.</p>
+        <p>These vibe coding projects emphasize intuition and experimentation rather than polish, while also encouraging critical reflection on AI aesthetics, the production of "AI slop," authorship, and the social and environmental impacts of AI. This site brings together those weekly experiments as a snapshot of how students explore, question, and reimagine creative coding on the web.</p>
+      </div>
+      <a href="about.html" class="button about-btn">Read more</a>
+    </header>
   </div>
 
   <div id="main-content" class="container">
@@ -34,16 +52,8 @@
         <ul id="nav-list"></ul>
       </div>
     </nav>
-
     <main>
       <div class="main-content">
-        <header>
-          <div class="intro">
-            <p>IML 300: Introduction to Creative Web Programming is an introductory creative coding course in the Media Arts + Practice program at USC. The course teaches the web as a creative medium while engaging critically with contemporary cultural and technological issues.</p>
-            <p>Throughout the semester, students learn two parallel ways of coding: manual coding assignments that build foundational skills, and weekly vibe coding exercises, where students use AI-assisted tools (such as Claude, Lovable, and Vercel's v0) to quickly create websites in response to readings, videos, or podcasts on topics like surveillance, digital decolonization, and internet culture.</p>
-            <p>These vibe coding projects emphasize intuition and experimentation rather than polish, while also encouraging critical reflection on AI aesthetics, the production of "AI slop," authorship, and the social and environmental impacts of AI. This site brings together those weekly experiments as a snapshot of how students explore, question, and reimagine creative coding on the web.</p>
-          </div>
-        </header>
         <div class="experiments" id="experiments"></div>
       </div>
     </main>

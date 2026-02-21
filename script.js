@@ -1,11 +1,99 @@
+/* =============================================
+   CURSOR
+   ============================================= */
+const cursorDot = document.createElement('div');
+cursorDot.className = 'cursor-dot';
+const cursorRing = document.createElement('div');
+cursorRing.className = 'cursor-ring';
+document.body.appendChild(cursorDot);
+document.body.appendChild(cursorRing);
+
+let mouseX = -100, mouseY = -100;
+let ringX = -100, ringY = -100;
+
+document.addEventListener('mousemove', (e) => {
+  mouseX = e.clientX;
+  mouseY = e.clientY;
+  cursorDot.style.left = mouseX + 'px';
+  cursorDot.style.top = mouseY + 'px';
+  // Only hide native cursor once we've confirmed mouse is moving
+  if (!document.body.classList.contains('cursor-ready')) {
+    document.body.classList.add('cursor-ready');
+  }
+});
+
+function animateRing() {
+  ringX += (mouseX - ringX) * 0.12;
+  ringY += (mouseY - ringY) * 0.12;
+  cursorRing.style.left = ringX + 'px';
+  cursorRing.style.top = ringY + 'px';
+  requestAnimationFrame(animateRing);
+}
+animateRing();
+
+/* =============================================
+   MARQUEE STRIP
+   ============================================= */
+function buildMarquee() {
+  const strip = document.querySelector('.marquee-strip-inner');
+  if (!strip) return;
+  const items = [
+    'Vibe Coding', '✦', 'IML 300', '✦', 'Media Arts + Practice', '✦',
+    'USC', '✦', 'Fall 2025', '✦', 'Generative Art', '✦', 'Surveillance',
+    '✦', 'Glitch', '✦', 'Digital Decolonization', '✦', 'Critical Access',
+    '✦', 'Machine Oppression', '✦', 'Algorithmic Resistance', '✦',
+  ];
+  // Duplicate for seamless loop
+  const doubled = [...items, ...items];
+  strip.innerHTML = doubled.map(t =>
+    t === '✦' ? `<span class="sep">✦</span>` : `<span>${t}</span>`
+  ).join('');
+}
+buildMarquee();
+
+/* =============================================
+   STUDENT NAME FORMATTER
+   ============================================= */
 function formatStudentName(fullName) {
-  const parts = fullName.trim().split(" ");
+  const parts = fullName.trim().split(' ');
   if (parts.length < 2) return fullName;
   const firstName = parts[0];
   const lastInitial = parts[parts.length - 1][0];
   return `${firstName} ${lastInitial}.`;
 }
 
+/* =============================================
+   SCREENSHOT / PREVIEW IMAGE MAPPING
+   We use a microlink/screenshotone-style service via open APIs.
+   Falling back to colorful gradient placeholders if none available.
+   ============================================= */
+function getCardImage(url) {
+  // Use a public screenshot API - microlink.io provides free screenshots
+  try {
+    const encoded = encodeURIComponent(url);
+    return `https://api.microlink.io?url=${encoded}&screenshot=true&meta=false&embed=screenshot.url`;
+  } catch {
+    return null;
+  }
+}
+
+// Fallback gradient palettes per experiment theme
+const THEME_GRADIENTS = [
+  'linear-gradient(135deg, #1a0533 0%, #2d1b69 50%, #11998e 100%)',  // 1 Generative
+  'linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%)',  // 2 Interface
+  'linear-gradient(135deg, #000428 0%, #004e92 100%)',               // 3 Hello Internet
+  'linear-gradient(135deg, #1c1c1c 0%, #3a1c71 50%, #d76d77 100%)', // 4 Surveillance
+  'linear-gradient(135deg, #12100e 0%, #2b4162 50%, #12100e 100%)',  // 5 Glitch
+  'linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%)', // 6 Machine
+  'linear-gradient(135deg, #134e5e 0%, #71b280 100%)',               // 7 Data Heal
+  'linear-gradient(135deg, #373b44 0%, #4286f4 100%)',               // 8 Critical Access
+  'linear-gradient(135deg, #360033 0%, #0b8793 100%)',               // 9 Algorithmic
+  'linear-gradient(135deg, #1f4037 0%, #99f2c8 100%)',               // 10 Live Coding
+];
+
+/* =============================================
+   DATA
+   ============================================= */
 const experiments = [
   {
     title: "Vibe Coding Experiment #1: Generative Art/Code",
@@ -47,8 +135,8 @@ const experiments = [
       { url: "https://static1.squarespace.com/static/59238d36d2b8575d127794a4/t/5a60bdecf9619a7f881b02a0/1516289526013/UNBAG_2_AmericanArtist.pdf", title: "American Artist - UNBAG" },
       { url: "https://yhsong.com/", title: "YH Song" },
       { url: "https://www.youtube.com/watch?v=rVYqt6BbwSM&ab_channel=cmudesign", title: "CMU Design" },
-      { url: "http://contemporary-home-computing.org/RUE/", title: "RUE - Contemporary Home Computing" },
-      { url: "https://frankchimero.com/blog/2013/what-screens-want/", title: "What Screens Want - Frank Chimero" },
+      { url: "http://contemporary-home-computing.org/RUE/", title: "RUE" },
+      { url: "https://frankchimero.com/blog/2013/what-screens-want/", title: "What Screens Want" },
     ],
     projects: [
       { student: "Chip Bailey", url: "https://v0.app/chat/my-space-aesthetic-website-nrIA8WFGOdb", title: "MySpace Aesthetic Website" },
@@ -75,7 +163,7 @@ const experiments = [
       { url: "https://youtu.be/Bq1FFbprnt4", title: "Hello Internet" },
       { url: "https://mayaontheinter.net/", title: "Maya on the Internet" },
       { url: "https://www.youtube.com/watch?v=Q8QknqgEalo&ab_channel=TheConference%2FMediaEvolution", title: "The Conference" },
-      { url: "https://thecreativeindependent.com/essays/laurel-schwulst-my-website-is-a-shifting-house-next-to-a-river-of-knowledge-what-could-yours-be/", title: "My Website is a Shifting House - Laurel Schwulst" },
+      { url: "https://thecreativeindependent.com/essays/laurel-schwulst-my-website-is-a-shifting-house-next-to-a-river-of-knowledge-what-could-yours-be/", title: "My Website is a Shifting House" },
     ],
     projects: [
       { student: "Chip Bailey", url: "https://claude.ai/public/artifacts/105976b1-52b9-4801-972a-42b5c91689c4", title: "Hello Internet" },
@@ -180,12 +268,12 @@ const experiments = [
   {
     title: "Vibe Coding Experiment #7: Data Heal & Digital Decolonization",
     references: [
-      { url: "https://docs.google.com/presentation/d/19xxc2zWWdFMAQjT6tRdN5ZU13vAKSwM7jojaC2U4F6Q/edit?usp=sharing", title: "Data Heal & Digital Decolonization Slides" },
+      { url: "https://docs.google.com/presentation/d/19xxc2zWWdFMAQjT6tRdN5ZU13vAKSwM7jojaC2U4F6Q/edit?usp=sharing", title: "Slides" },
       { url: "https://www.youtube.com/watch?v=D9Ihs241zeg", title: "YouTube" },
       { url: "https://vimeo.com/233683682", title: "Vimeo" },
       { url: "https://chia.design/", title: "Chia Design" },
       { url: "https://www.youtube.com/watch?v=TkslRzO5lUo", title: "YouTube" },
-      { url: "https://yaa-addae.net/writing", title: "Yaa Addae Writing" },
+      { url: "https://yaa-addae.net/writing", title: "Yaa Addae" },
     ],
     projects: [
       { student: "Chip Bailey", url: "https://v0-article-to-website.vercel.app/", title: "Article to Website" },
@@ -264,74 +352,134 @@ const experiments = [
   },
 ];
 
-// ── Render navigation ──────────────────────────────────────────────────────────
-const navList = document.getElementById("nav-list");
-experiments.forEach((experiment, idx) => {
-  const experimentNumber = String(idx + 1).padStart(2, "0");
+/* =============================================
+   RENDER NAV
+   ============================================= */
+const navList = document.getElementById('nav-list');
+experiments.forEach((exp, idx) => {
+  const num = String(idx + 1).padStart(2, '0');
   const sectionId = `experiment-${idx + 1}`;
-  const shortTitle = experiment.title.replace(/Vibe Cod(e|ing) Experiment #\d+:\s*/, "");
-  const li = document.createElement("li");
-  li.innerHTML = `<a href="#${sectionId}"><span class="experiment-number">${experimentNumber}</span>${shortTitle}</a>`;
+  const shortTitle = exp.title.replace(/Vibe Cod(e|ing) Experiment #\d+:\s*/i, '');
+  const li = document.createElement('li');
+  li.innerHTML = `<a href="#${sectionId}"><span class="experiment-number">${num}</span>${shortTitle}</a>`;
   navList.appendChild(li);
 });
 
-// ── Render experiments ─────────────────────────────────────────────────────────
-const experimentsContainer = document.getElementById("experiments");
-experiments.forEach((experiment, idx) => {
-  const sectionId = `experiment-${idx + 1}`;
+/* =============================================
+   RENDER EXPERIMENTS
+   ============================================= */
+const experimentsContainer = document.getElementById('experiments');
 
-  let referencesHTML = "";
-  if (experiment.references && experiment.references.length > 0) {
+experiments.forEach((exp, idx) => {
+  const sectionId = `experiment-${idx + 1}`;
+  const num = String(idx + 1).padStart(2, '0');
+  const shortTitle = exp.title.replace(/Vibe Cod(e|ing) Experiment #\d+:\s*/i, '');
+  const gradient = THEME_GRADIENTS[idx] || THEME_GRADIENTS[0];
+
+  let referencesHTML = '';
+  if (exp.references?.length) {
     referencesHTML = `
       <div class="references">
-        <p>Reading Materials:</p>
-        <ul>
-          ${experiment.references.map(ref => `
-            <li><a href="${ref.url}" target="_blank" rel="noopener noreferrer">${ref.title}</a></li>
-          `).join("")}
-        </ul>
+        <p>Reading Materials</p>
+        <ul>${exp.references.map(r => `
+          <li><a href="${r.url}" target="_blank" rel="noopener noreferrer">${r.title}</a></li>
+        `).join('')}</ul>
       </div>`;
   }
 
-  let projectsHTML = "";
-  if (experiment.projects && experiment.projects.length > 0) {
+  let projectsHTML = '';
+  if (exp.projects?.length) {
     projectsHTML = `
+      <div class="section-meta">
+        <span class="meta-chip">${exp.projects.length} projects</span>
+      </div>
       <div class="projects-grid">
-        ${experiment.projects.map(project => `
-          <div
-            class="project-card"
-            data-url="${project.url}"
-            data-student="${project.student}"
-            data-title="${project.title}"
-            role="button"
-            tabindex="0"
-            aria-label="Open ${project.title} by ${project.student}"
-          >
+        ${exp.projects.map(p => `
+          <div class="project-card"
+            data-url="${p.url}"
+            data-student="${p.student}"
+            data-title="${p.title}"
+            data-gradient="${gradient}"
+            role="button" tabindex="0"
+            aria-label="Open ${p.title} by ${p.student}">
             <div class="card">
-              <p class="student-name">${formatStudentName(project.student)}</p>
-              <p class="project-title">${project.title}</p>
-              <p class="open-hint">Click to preview ↗</p>
+              <div class="card-img-bg" style="background: ${gradient};"></div>
+              <div class="card-content">
+                <p class="student-name">${formatStudentName(p.student)}</p>
+                <p class="project-title">${p.title}</p>
+                <p class="open-hint">Click to preview ↗</p>
+              </div>
             </div>
-          </div>`).join("")}
+          </div>`).join('')}
       </div>`;
   }
 
-  const section = document.createElement("section");
+  const section = document.createElement('section');
   section.id = sectionId;
-  section.innerHTML = `<h2>${experiment.title}</h2>${referencesHTML}${projectsHTML}`;
+  section.innerHTML = `
+    <span class="experiment-num-badge">Experiment ${num}</span>
+    <h2>${shortTitle}</h2>
+    ${referencesHTML}
+    ${projectsHTML}`;
   experimentsContainer.appendChild(section);
 });
 
-// ── Smooth scroll arrow ────────────────────────────────────────────────────────
-const scrollArrow = document.querySelector('.scroll-arrow');
-if (scrollArrow) {
-  scrollArrow.addEventListener('click', (e) => {
-    e.preventDefault();
-    document.getElementById('main-content').scrollIntoView({ behavior: 'smooth' });
-  });
+/* =============================================
+   SCREENSHOT PREVIEW on card hover
+   We lazy-load screenshot previews via microlink API.
+   Cards fall back to gradient if it fails or is slow.
+   ============================================= */
+function attachScreenshotPreviews() {
+  const imageCache = new Map();
+
+  document.getElementById('experiments').addEventListener('mouseenter', (e) => {
+    const card = e.target.closest('.project-card');
+    if (!card) return;
+
+    const url = card.dataset.url;
+    const imgBg = card.querySelector('.card-img-bg');
+    if (!imgBg || imgBg.dataset.loaded) return;
+
+    if (imageCache.has(url)) {
+      const cached = imageCache.get(url);
+      if (cached) {
+        imgBg.style.backgroundImage = `url(${cached})`;
+        imgBg.dataset.loaded = '1';
+      }
+      return;
+    }
+
+    // Use microlink screenshot API
+    const apiUrl = `https://api.microlink.io/?url=${encodeURIComponent(url)}&screenshot=true&meta=false&embed=screenshot.url`;
+
+    fetch(apiUrl)
+      .then(r => r.json())
+      .then(data => {
+        const screenshotUrl = data?.data?.screenshot?.url;
+        if (screenshotUrl) {
+          imageCache.set(url, screenshotUrl);
+          // Pre-load
+          const img = new Image();
+          img.onload = () => {
+            imgBg.style.backgroundImage = `url(${screenshotUrl})`;
+            imgBg.dataset.loaded = '1';
+          };
+          img.src = screenshotUrl;
+        } else {
+          imageCache.set(url, null); // mark as failed
+        }
+      })
+      .catch(() => {
+        imageCache.set(url, null);
+      });
+  }, true);
 }
 
-// ── Modal logic ───────────────────────────────────────────────────────────────
+attachScreenshotPreviews();
+
+/* =============================================
+   MODAL LOGIC
+   ============================================= */
 const modal          = document.getElementById('modal');
 const modalIframe    = document.getElementById('modal-iframe');
 const modalClose     = document.getElementById('modal-close');
@@ -342,86 +490,53 @@ const modalLoading   = document.getElementById('modal-loading');
 const modalBlocked   = document.getElementById('modal-blocked');
 const modalBlockedLink = document.getElementById('modal-blocked-link');
 
-/**
- * Convert some known URLs to their embed equivalents when possible.
- * This helps with YouTube / Vimeo links that otherwise redirect to watch pages.
- */
 function toEmbedUrl(originalUrl) {
   try {
     const u = new URL(originalUrl);
     const host = u.hostname.toLowerCase();
-
-    // YouTube: https://www.youtube.com/watch?v=ID  ->  https://www.youtube.com/embed/ID
     if (host.includes('youtube.com') && u.searchParams.has('v')) {
-      const id = u.searchParams.get('v');
-      return `https://www.youtube.com/embed/${id}`;
+      return `https://www.youtube.com/embed/${u.searchParams.get('v')}`;
     }
-
-    // Short yt links: https://youtu.be/ID -> https://www.youtube.com/embed/ID
     if (host === 'youtu.be') {
       const id = u.pathname.slice(1);
       if (id) return `https://www.youtube.com/embed/${id}`;
     }
-
-    // Vimeo: https://vimeo.com/ID -> https://player.vimeo.com/video/ID
     if (host.includes('vimeo.com') && /^\/\d+/.test(u.pathname)) {
       const id = u.pathname.split('/').filter(Boolean)[0];
       return `https://player.vimeo.com/video/${id}`;
     }
-
-    // lovabled/v0/app links and some other providers often don't support embedding;
-    // we leave them alone here (we attempt to load and then fall back if blocked).
     return originalUrl;
-  } catch {
-    return originalUrl;
-  }
+  } catch { return originalUrl; }
 }
 
-// Replace your openModal and related handlers with this version
 function openModal(url, student, title) {
   modalStudent.textContent   = student;
   modalTitleText.textContent = title;
   modalExternal.href         = url;
   modalBlockedLink.href      = url;
-
-  // Reset state
   modalLoading.style.display = 'flex';
   modalBlocked.classList.remove('show');
   modalIframe.src = '';
-
   modal.classList.add('active');
   document.body.style.overflow = 'hidden';
 
-  // Convert to embed-friendly URL when we can (YouTube, Vimeo)
   const tryUrl = toEmbedUrl(url);
-
-  // Set src to tryUrl
-  // Use a tiny delay to ensure any prior src change has settled (optional)
   modalIframe.src = tryUrl;
-
-  // Clear any previous handlers to avoid duplicated behavior
   modalIframe.onload = null;
   modalIframe.onerror = null;
 
-  // Fallback: hide spinner after 8s whether or not onload fired
   const loadTimer = setTimeout(() => {
     modalLoading.style.display = 'none';
-    // If neither onload nor onerror fired after timeout, treat as blocked/unembeddable
-    // (this covers slow networks or servers that intentionally block framing via headers)
-    if (!modalIframe.dataset.loaded) {
-      modalBlocked.classList.add('show');
-    }
+    if (!modalIframe.dataset.loaded) modalBlocked.classList.add('show');
   }, 8000);
 
-  // onload: iframe reported loaded — assume embedding succeeded.
   modalIframe.onload = () => {
     clearTimeout(loadTimer);
     modalLoading.style.display = 'none';
-    modalIframe.dataset.loaded = '1'; // mark as loaded
+    modalIframe.dataset.loaded = '1';
     modalBlocked.classList.remove('show');
   };
 
-  // onerror: failed to load (network error or blocked)
   modalIframe.onerror = () => {
     clearTimeout(loadTimer);
     modalLoading.style.display = 'none';
@@ -432,16 +547,14 @@ function openModal(url, student, title) {
 function closeModal() {
   modal.classList.remove('active');
   document.body.style.overflow = '';
-  // Clear iframe after small delay to allow the modal closing animation to run
-  setTimeout(() => { 
-    try { 
+  setTimeout(() => {
+    try {
       modalIframe.src = 'about:blank';
       delete modalIframe.dataset.loaded;
     } catch {}
   }, 300);
 }
 
-// Event delegation — project cards
 document.getElementById('experiments').addEventListener('click', (e) => {
   const card = e.target.closest('.project-card');
   if (card) openModal(card.dataset.url, card.dataset.student, card.dataset.title);
@@ -454,8 +567,36 @@ document.getElementById('experiments').addEventListener('keydown', (e) => {
   }
 });
 
-// Close triggers
 if (modalClose) modalClose.addEventListener('click', closeModal);
 if (modal) modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
 
+/* =============================================
+   SMOOTH SCROLL ARROW
+   ============================================= */
+const scrollArrow = document.querySelector('.scroll-arrow');
+if (scrollArrow) {
+  scrollArrow.addEventListener('click', (e) => {
+    e.preventDefault();
+    document.getElementById('about').scrollIntoView({ behavior: 'smooth' });
+  });
+}
+
+/* =============================================
+   SECTION REVEAL ON SCROLL
+   ============================================= */
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.style.opacity = '1';
+      entry.target.style.transform = 'translateY(0)';
+    }
+  });
+}, { threshold: 0.05, rootMargin: '0px 0px -60px 0px' });
+
+document.querySelectorAll('section').forEach(sec => {
+  sec.style.opacity = '0';
+  sec.style.transform = 'translateY(24px)';
+  sec.style.transition = 'opacity 0.55s ease, transform 0.55s ease';
+  revealObserver.observe(sec);
+});
