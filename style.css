@@ -218,14 +218,38 @@ body.landing-page {
   cursor: pointer;
   text-decoration: none;
   display: inline-block;
-  transition: background 0.18s, color 0.18s, border-color 0.18s;
+  transition: background 0.22s ease, color 0.22s ease, border-color 0.22s ease,
+              box-shadow 0.22s ease, transform 0.18s ease;
   white-space: nowrap;
+  position: relative;
 }
 
+/* Cycle through vivid gradients on hover — use nth-child to vary colors per chip */
 .landing-chip:hover {
-  background: rgba(255, 255, 255, 0.12);
-  color: rgba(255, 255, 255, 0.85);
-  border-color: rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+  border-color: transparent;
+  transform: translateY(-2px) scale(1.04);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
+}
+
+/* Default bold gradient (chip 1, 4, 7…) — electric violet → hot pink */
+.landing-chip:nth-child(3n+1):hover {
+  background: linear-gradient(135deg, #7b2ff7 0%, #f107a3 100%);
+  box-shadow: 0 0 22px rgba(241, 7, 163, 0.6), 0 4px 12px rgba(123, 47, 247, 0.4);
+}
+
+/* Chip 2, 5, 8… — neon cyan → electric lime */
+.landing-chip:nth-child(3n+2):hover {
+  background: linear-gradient(135deg, #00c6ff 0%, #00e676 100%);
+  box-shadow: 0 0 22px rgba(0, 230, 118, 0.55), 0 4px 12px rgba(0, 198, 255, 0.45);
+  color: #001a0e;
+  text-shadow: none;
+}
+
+/* Chip 3, 6, 9… — deep orange → scarlet red */
+.landing-chip:nth-child(3n+3):hover {
+  background: linear-gradient(135deg, #ff6a00 0%, #ee0979 100%);
+  box-shadow: 0 0 22px rgba(238, 9, 121, 0.6), 0 4px 12px rgba(255, 106, 0, 0.45);
 }
 
 /* =====================================================================
@@ -902,15 +926,16 @@ body:not(.landing-page) .card {
   min-height: 90px;
 }
 
-/* Image hover fill (about) */
+/* Image hover fill (about) — holds the per-experiment gradient set inline */
 .card-img-bg {
   position: absolute;
   inset: 0;
   background-size: cover;
   background-position: center;
   opacity: 0;
-  transition: opacity 0.4s ease;
+  transition: opacity 0.3s ease;
   z-index: 0;
+  filter: saturate(1.4) brightness(1.1);
 }
 
 .card-content {
@@ -919,14 +944,18 @@ body:not(.landing-page) .card {
   transition: color 0.3s;
 }
 
-/* Dark overlay when image is visible (about) */
+/* Light scrim so text stays legible over the vivid gradient */
 body:not(.landing-page) .card::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(5, 9, 24, 0.78) 0%, rgba(5, 9, 24, 0.55) 100%);
+  background: linear-gradient(
+    160deg,
+    rgba(0, 0, 0, 0.45) 0%,
+    rgba(0, 0, 0, 0.15) 100%
+  );
   opacity: 0;
-  transition: opacity 0.4s ease;
+  transition: opacity 0.3s ease;
   z-index: 0;
   border-radius: 6px;
 }
@@ -934,7 +963,7 @@ body:not(.landing-page) .card::after {
 body:not(.landing-page) .project-card:hover .card {
   border-color: var(--primary);
   transform: translateY(-3px);
-  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.14);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.18);
 }
 
 body:not(.landing-page) .project-card:hover .card-img-bg {

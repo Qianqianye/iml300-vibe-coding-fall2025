@@ -386,6 +386,7 @@ experiments.forEach((exp, idx) => {
         `).join('')}</ul>
       </div>`;
   }
+  
 
   let projectsHTML = '';
   if (exp.projects?.length) {
