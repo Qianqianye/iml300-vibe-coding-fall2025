@@ -427,29 +427,6 @@ body:not(.landing-page) .hero-subtitle::before {
   white-space: nowrap;
 }
 
-.marquee-strip-inner {
-  display: inline-flex;
-  animation: marqueeScroll 24s linear infinite;
-  gap: 0;
-}
-
-.marquee-strip-inner span {
-  font-size: 0.7rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  padding: 0 2rem;
-}
-
-.marquee-strip-inner span.sep {
-  opacity: 0.4;
-  padding: 0;
-}
-
-@keyframes marqueeScroll {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
-}
-
 /* =====================================================================
    CUSTOM CURSOR (about page)
    ===================================================================== */
@@ -630,11 +607,14 @@ header {
   gap: 1.5rem;
   margin-bottom: 3rem;
   border-bottom: 2px solid var(--primary);
-  padding-bottom: 6rem;
-  padding-top: 1rem;
+  padding-bottom: 3.5rem;
 }
 
 /* About page adds extra top padding to header */
+body:not(.landing-page) header {
+  margin-bottom: 0;
+  padding-bottom:4.5rem;
+}
 
 body:not(.landing-page) header h2 {
   font-family: 'Georgia', 'Times New Roman', serif;

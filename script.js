@@ -32,26 +32,6 @@ function animateRing() {
 animateRing();
 
 /* =============================================
-   MARQUEE STRIP
-   ============================================= */
-function buildMarquee() {
-  const strip = document.querySelector('.marquee-strip-inner');
-  if (!strip) return;
-  const items = [
-    'Vibe Coding', '✦', 'IML 300', '✦', 'Media Arts + Practice', '✦',
-    'USC', '✦', 'Fall 2025', '✦', 'Generative Art', '✦', 'Surveillance',
-    '✦', 'Glitch', '✦', 'Digital Decolonization', '✦', 'Critical Access',
-    '✦', 'Machine Oppression', '✦', 'Algorithmic Resistance', '✦',
-  ];
-  // Duplicate for seamless loop
-  const doubled = [...items, ...items];
-  strip.innerHTML = doubled.map(t =>
-    t === '✦' ? `<span class="sep">✦</span>` : `<span>${t}</span>`
-  ).join('');
-}
-buildMarquee();
-
-/* =============================================
    STUDENT NAME FORMATTER
    ============================================= */
 function formatStudentName(fullName) {
