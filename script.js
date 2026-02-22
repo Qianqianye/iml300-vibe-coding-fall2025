@@ -87,26 +87,24 @@ const experiments = [
       { url: "https://collections.vam.ac.uk/search/?id_category=THES49037", title: "V&A Collections" },
     ],
     projects: [
-      { student: "Chip Bailey", url: "https://claude.ai/public/artifacts/51fc7d0e-5eb5-4fb3-9a79-0877bd8a24f3", title: "Generative Art" },
+      { student: "Chip Bailey", url: "https://claude.ai/public/artifacts/51fc7d0e-5eb5-4fb3-9a79-0877bd8a24f3", title: "Realistic Excuse Generator" },
       { student: "Kelly Cao", url: "https://v0-victorian-joke-website.vercel.app/", title: "Victorian Joke Website" },
-      { student: "Manuel Chavez", url: "https://claude.ai/public/artifacts/f35abb6c-8e20-4bab-9b21-d7b930f9b983", title: "Generative Art" },
-      { student: "Lam Chung", url: "https://claude.ai/public/artifacts/2e002c37-5adc-44ec-aa12-904b59dc97a7", title: "Generative Art" },
-      { student: "Margaret Danenhauer", url: "https://claude.ai/public/artifacts/8f881d20-5ea2-4179-ad2e-d645b9187b42", title: "Generative Art" },
-      { student: "Davia Ferree", url: "https://claude.ai/public/artifacts/e3c17f30-7da2-4045-a30f-b4b86c2cc0a8", title: "Generative Art" },
-      { student: "Isabel Fowlkes", url: "https://claude.ai/public/artifacts/7a18ca32-b5c7-4340-90b8-6698d8774076", title: "Generative Art" },
-      { student: "Sean Guzman", url: "https://claude.ai/public/artifacts/1be172dd-b182-443e-8d43-d269c3e94801", title: "Generative Art" },
-      { student: "Josie Jensen", url: "https://claude.ai/public/artifacts/9dbe81e8-8eba-4795-a766-905c6093bc69", title: "Generative Art" },
-      { student: "Jinglin Jingan", url: "https://claude.ai/public/artifacts/9dd16351-6b40-486f-b8f9-2f32723d8ff7", title: "Generative Art" },
-      { student: "Astghik Kalashyan", url: "https://claude.ai/public/artifacts/fdc9105c-8327-4318-8a40-1ee740b69053", title: "Generative Art" },
-      { student: "Jiwoo Kim", url: "https://claude.ai/public/artifacts/ceea8595-a371-4f38-9358-e40e2757f542", title: "Generative Art" },
-      { student: "Zoe Leung", url: "https://claude.ai/public/artifacts/65656971-d9d0-4a04-b3ba-9ab12dc39afc", title: "Generative Art" },
-      { student: "Milan McIntosh", url: "https://claude.ai/chat/ccc00a75-b234-445d-8e0f-8c590dfb68c7", title: "Generative Art" },
-      { student: "Akasa Mei", url: "https://claude.ai/public/artifacts/18309b59-f812-4d6f-9b5d-e4f49af3cba4", title: "Generative Art" },
-      { student: "Ben Regev", url: "https://claude.ai/public/artifacts/abb31721-9016-492d-819d-b1d8acf71e5b", title: "Generative Art" },
-      { student: "Jason Rui", url: "https://claude.ai/public/artifacts/c546f8ef-44d3-4b6a-bb75-c350e9689bf2", title: "Generative Art" },
-      { student: "Jonas Sansone", url: "https://claude.ai/public/artifacts/d3996de6-84c6-487b-910e-4905afaea2d5?fullscreen=false", title: "Generative Art" },
-      { student: "Robynn Shen", url: "https://claude.ai/public/artifacts/782a7230-f758-4591-8aa1-6c3a84772dad", title: "Generative Art" },
-      { student: "Claire Smith", url: "https://claude.ai/share/db4952aa-0ceb-46f2-8712-377d5a23b1a2", title: "Generative Art" },
+      { student: "Manuel Chavez", url: "https://claude.ai/public/artifacts/f35abb6c-8e20-4bab-9b21-d7b930f9b983", title: "Live Fruit Tier List Market" },
+      { student: "Lam Chung", url: "https://claude.ai/public/artifacts/2e002c37-5adc-44ec-aa12-904b59dc97a7", title: "Midcentury Modern Chair Generator" },
+      { student: "Margaret Danenhauer", url: "https://claude.ai/public/artifacts/8f881d20-5ea2-4179-ad2e-d645b9187b42", title: "Comic Art Archive" },
+      { student: "Davia Ferree", url: "https://claude.ai/public/artifacts/e3c17f30-7da2-4045-a30f-b4b86c2cc0a8", title: "Spinning Frog Fun Facts" },
+      { student: "Sean Guzman", url: "https://claude.ai/public/artifacts/1be172dd-b182-443e-8d43-d269c3e94801", title: "What is ___ up to?" },
+      { student: "Josie Jensen", url: "https://claude.ai/public/artifacts/9dbe81e8-8eba-4795-a766-905c6093bc69", title: "Corn Flush" },
+      { student: "Jinglin Jingan", url: "https://claude.ai/public/artifacts/9dd16351-6b40-486f-b8f9-2f32723d8ff7", title: "Who Am I - Interactive Mind Map" },
+      { student: "Astghik Kalashyan", url: "https://claude.ai/public/artifacts/fdc9105c-8327-4318-8a40-1ee740b69053", title: "MiniMuse - Art Museum" },
+      { student: "Jiwoo Kim", url: "https://claude.ai/public/artifacts/ceea8595-a371-4f38-9358-e40e2757f542", title: "Korean Food Recommender" },
+      { student: "Zoe Leung", url: "https://claude.ai/public/artifacts/65656971-d9d0-4a04-b3ba-9ab12dc39afc", title: "Emoji Mood Board" },
+      { student: "Akasa Mei", url: "https://claude.ai/public/artifacts/18309b59-f812-4d6f-9b5d-e4f49af3cba4", title: "Virtual Cat Feeder" },
+      { student: "Ben Regev", url: "https://claude.ai/public/artifacts/abb31721-9016-492d-819d-b1d8acf71e5b", title: "Ocean Plastic Crisis" },
+      { student: "Jason Rui", url: "https://claude.ai/public/artifacts/c546f8ef-44d3-4b6a-bb75-c350e9689bf2", title: "Claude Portfolio" },
+      { student: "Jonas Sansone", url: "https://claude.ai/public/artifacts/d3996de6-84c6-487b-910e-4905afaea2d5?fullscreen=false", title: "Coding Class Adventure" },
+      { student: "Robynn Shen", url: "https://claude.ai/public/artifacts/782a7230-f758-4591-8aa1-6c3a84772dad", title: "Daily Vibe Coding Tarot" },
+      { student: "Claire Smith", url: "https://claude.ai/share/db4952aa-0ceb-46f2-8712-377d5a23b1a2", title: "Interactive Origami Tutorial" },
     ],
   },
   {
@@ -120,21 +118,21 @@ const experiments = [
     ],
     projects: [
       { student: "Chip Bailey", url: "https://v0.app/chat/my-space-aesthetic-website-nrIA8WFGOdb", title: "MySpace Aesthetic Website" },
-      { student: "Kelly Cao", url: "https://claude.ai/public/artifacts/eff256d5-a125-4dba-8385-6466a84538d3", title: "Interface" },
+      { student: "Kelly Cao", url: "https://claude.ai/public/artifacts/eff256d5-a125-4dba-8385-6466a84538d3", title: "Project Tracker" },
       { student: "Manuel Chavez", url: "https://web-echoes-of-soul.lovable.app/", title: "Web Echoes of Soul" },
-      { student: "Margaret Danenhauer", url: "https://claude.ai/public/artifacts/cf5a028d-1916-4dd5-9ece-c2e5d27af74d", title: "Interface" },
-      { student: "Davia Ferree", url: "https://claude.ai/public/artifacts/2a71b343-8a2d-4423-8c40-266c88c828d6", title: "Interface" },
-      { student: "Sean Guzman", url: "https://claude.ai/public/artifacts/7ff2c719-4dd8-4106-9843-c934723e1727", title: "Interface" },
-      { student: "Jinglin Jingan", url: "https://claude.ai/public/artifacts/ce6eddb3-f1b8-448e-bae6-d858e27b51b1", title: "Interface" },
+      { student: "Margaret Danenhauer", url: "https://claude.ai/public/artifacts/cf5a028d-1916-4dd5-9ece-c2e5d27af74d", title: "Living Website that Needs Food" },
+      { student: "Davia Ferree", url: "https://claude.ai/public/artifacts/2a71b343-8a2d-4423-8c40-266c88c828d6", title: "Undo Button Clicker Game" },
+      { student: "Sean Guzman", url: "https://claude.ai/public/artifacts/7ff2c719-4dd8-4106-9843-c934723e1727", title: "Terminal Drawing Canvas" },
+      { student: "Jinglin Jingan", url: "https://claude.ai/public/artifacts/ce6eddb3-f1b8-448e-bae6-d858e27b51b1", title: "Indie Notebook Landing Page" },
       { student: "Astghik Kalashyan", url: "https://v0-depeche-mode-website.vercel.app/", title: "Depeche Mode Website" },
-      { student: "Jiwoo Kim", url: "https://claude.ai/public/artifacts/7e497709-6db4-4858-8bdf-b6b71e4ae15a", title: "Interface" },
-      { student: "Zoe Leung", url: "https://claude.ai/public/artifacts/65efb397-a7fc-4b52-afef-3f2d054b2fb0", title: "Interface" },
-      { student: "Akasa Mei", url: "https://claude.ai/public/artifacts/04cdb701-48ac-4eba-9f3c-90fc9095111c", title: "Interface" },
-      { student: "Ben Regev", url: "https://claude.ai/public/artifacts/6d82ae85-f511-4b95-a58a-65d2367dc547", title: "Interface" },
-      { student: "Jason Rui", url: "https://claude.ai/public/artifacts/7973a9b7-94ca-4335-b7f5-9ee196b0e58d", title: "Interface" },
-      { student: "Jonas Sansone", url: "https://claude.ai/public/artifacts/04bab274-f5cf-4d52-af6a-598680b19456", title: "Interface" },
-      { student: "Robynn Shen", url: "https://claude.ai/public/artifacts/9c88c680-4a25-4891-9b0e-77274794852a", title: "Interface" },
-      { student: "Claire Smith", url: "https://claude.ai/public/artifacts/6edae114-9dd4-4e5e-b893-7b7921cefae9", title: "Interface" },
+      { student: "Jiwoo Kim", url: "https://claude.ai/public/artifacts/7e497709-6db4-4858-8bdf-b6b71e4ae15a", title: "Hair Collection Game" },
+      { student: "Zoe Leung", url: "https://claude.ai/public/artifacts/65efb397-a7fc-4b52-afef-3f2d054b2fb0", title: "Black Gooey Universe" },
+      { student: "Akasa Mei", url: "https://claude.ai/public/artifacts/04cdb701-48ac-4eba-9f3c-90fc9095111c", title: "Computer Evolution with Aspirin" },
+      { student: "Ben Regev", url: "https://claude.ai/public/artifacts/6d82ae85-f511-4b95-a58a-65d2367dc547", title: "Refuse and Reclaim" },
+      { student: "Jason Rui", url: "https://claude.ai/public/artifacts/7973a9b7-94ca-4335-b7f5-9ee196b0e58d", title: "Black Gooey Universe Analysis" },
+      { student: "Jonas Sansone", url: "https://claude.ai/public/artifacts/04bab274-f5cf-4d52-af6a-598680b19456", title: "Defiant Goo Ball" },
+      { student: "Robynn Shen", url: "https://claude.ai/public/artifacts/9c88c680-4a25-4891-9b0e-77274794852a", title: "Icon Flux Generator" },
+      { student: "Claire Smith", url: "https://claude.ai/public/artifacts/6edae114-9dd4-4e5e-b893-7b7921cefae9", title: "Text into Black Hole" },
     ],
   },
   {
@@ -331,6 +329,17 @@ const experiments = [
     ],
   },
 ];
+
+document.querySelectorAll('.accordion').forEach(accordion => {
+  const header = accordion.querySelector('.accordion-header');
+  const body = accordion.querySelector('.accordion-body');
+  const toggle = accordion.querySelector('.accordion-toggle');
+
+  header.addEventListener('click', () => {
+    body.classList.toggle('open');
+    toggle.textContent = body.classList.contains('open') ? '−' : '+';
+  });
+});
 
 /* =============================================
    RENDER NAV

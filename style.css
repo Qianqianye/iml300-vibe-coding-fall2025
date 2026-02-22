@@ -32,7 +32,7 @@ html {
 }
 
 body {
-  font-family: "Inconsolata", monospace;
+  font-family: "Source Code Pro", monospace;
   background-color: var(--muted);
   color: var(--foreground);
   line-height: 1.5;
@@ -124,8 +124,8 @@ body.landing-page {
 
 /* Eyebrow label */
 .landing-eyebrow {
-  font-family: "Inconsolata", monospace;
-  font-size: 0.7rem;
+  font-family: "Source Code Pro", monospace;
+  font-size: 0.8rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.85);
@@ -169,7 +169,7 @@ body.landing-page {
 }
 
 .landing-input-text {
-  font-family: "Inconsolata", monospace;
+  font-family: "Source Code Pro", monospace;
   font-size: 0.92rem;
   color: rgba(255, 255, 255, 0.5);
   flex: 1;
@@ -207,8 +207,8 @@ body.landing-page {
 }
 
 .landing-chip {
-  font-family: "Inconsolata", monospace;
-  font-size: 0.72rem;
+  font-family: "Source Code Pro", monospace;
+  font-size: 0.8rem;
   letter-spacing: 0.03em;
   color: rgba(255, 255, 255, 0.8);
   background: rgba(255, 255, 255, 0.06);
@@ -394,7 +394,7 @@ body:not(.landing-page) .hero-subtitle::before {
 }
 
 .scroll-arrow span {
-  font-family: "Inconsolata", monospace;
+  font-family: "Source Code Pro", monospace;
   font-size: 0.65rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -625,15 +625,83 @@ body:not(.landing-page) header h2 {
   width: 100%;
   max-width: 800px;
 }
-
-.intro {
-  display: block;
-  text-align: left;
-  max-width: 800px;
+.accordion-group {
   width: 100%;
+  max-width: 800px;
   margin: 0 auto;
+}
+
+.accordion {
+  width: 100%;
+}
+
+.accordion-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  user-select: none;
+  padding: 1rem 0;
+}
+
+.accordion-header h2 {
+  margin: 0;
+}
+
+.accordion-toggle {
+  font-size: 1.5rem;
+  font-weight: 300;
+  line-height: 1;
   color: #1a1a2e;
-  line-height: 1.85;
+}
+
+.accordion-body {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.4s ease;
+}
+
+.accordion-body.open {
+  grid-template-rows: 1fr;
+}
+
+.accordion-body > .intro {
+  overflow: hidden;
+}
+
+.intro p {
+  font-style: italic;
+  margin: 0;
+  padding-bottom: 1rem;
+}
+
+.intro-always-open p {
+  font-style: italic;
+  padding: 1rem 0;
+  margin: 0;
+}
+
+.accordion-rule {
+  width: 100%;
+  height: 1px;
+  background: #1a1a2e;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.fade-in-text {
+    opacity: 0; 
+    animation-name: fadeIn;
+    animation-duration: 1s;
+    animation-timing-function: ease-in;
+    animation-fill-mode: forwards;
 }
 
 .intro p { margin-bottom: 1rem; }
@@ -676,7 +744,7 @@ section h2 {
 .experiment-num-badge {
   display: block;
   width: fit-content;
-  font-family: "Inconsolata", monospace;
+  font-family: "Source Code Pro", monospace;
   font-size: 0.65rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -715,7 +783,7 @@ section h2 {
 
 /* About page references get a styled border treatment */
 body:not(.landing-page) .references {
-  font-size: 0.8rem;
+  font-size: 1rem;
   background: rgba(0, 0, 0, 0.03);
   border-left: 2px solid var(--accent);
   padding: 0.75rem 1rem;
@@ -723,13 +791,13 @@ body:not(.landing-page) .references {
 }
 
 .references p {
-  font-weight: 600;
+  font-weight: 400;
   color: var(--muted-foreground);
   margin-bottom: 0.5rem;
 }
 
 body:not(.landing-page) .references p {
-  font-weight: 700;
+  font-weight: 400;
   letter-spacing: 0.05em;
   text-transform: uppercase;
   font-size: 1rem;
@@ -823,7 +891,7 @@ body:not(.landing-page) .card {
   background-color: var(--card);
   border: 1.5px solid var(--border);
   padding: 1.1rem 1.1rem 1rem;
-  border-radius: 8px;
+  border-radius: 4px;
   height: 100%;
   transition: border-color 0.25s, transform 0.2s, box-shadow 0.25s;
   position: relative;
@@ -881,6 +949,7 @@ body:not(.landing-page) .project-card:hover .card::after {
 
 /* Student name */
 .student-name {
+  font-family: Georgia, 'Times New Roman', Times, serif;
   font-weight: 600;
   color: var(--card-foreground);
   margin-bottom: 0.25rem;
@@ -889,7 +958,7 @@ body:not(.landing-page) .project-card:hover .card::after {
 
 body:not(.landing-page) .student-name {
   font-size: 1rem;
-  font-weight: 700;
+  font-weight: 500;
   margin-bottom: 0.2rem;
   transition: color 0.3s;
   font-style: normal;
@@ -911,6 +980,7 @@ body:not(.landing-page) .project-card:hover .student-name {
 
 body:not(.landing-page) .project-title {
   font-size: 0.9rem;
+  font-weight: 400;
   transition: color 0.3s;
   font-style: normal;
 }
@@ -1034,7 +1104,7 @@ body:not(.landing-page) .modal-box {
 }
 
 .modal-external-btn {
-  font-family: "Inconsolata", monospace;
+  font-family: "Source Code Pro", monospace;
   font-size: 0.75rem;
   color: var(--primary);
   text-decoration: none;
@@ -1064,7 +1134,7 @@ body:not(.landing-page) .modal-box {
   font-size: 1.1rem;
   color: var(--foreground);
   transition: background 0.15s;
-  font-family: monospace;
+  font-family: "Source Code Pro", monospace;
   line-height: 1;
 }
 
@@ -1129,7 +1199,7 @@ body:not(.landing-page) .modal-box {
 }
 
 .modal-blocked a {
-  font-family: "Inconsolata", monospace;
+  font-family: "Source Code Pro", monospace;
   font-size: 0.8rem;
   font-style: normal;
   color: #fff;
