@@ -135,7 +135,7 @@ body.landing-page {
 /* Main heading */
 .landing-heading {
   font-family: 'Georgia', 'Times New Roman', serif;
-  font-size: clamp(1.9rem, 4.5vw, 3.2rem);
+  font-size: 5vw;
   font-weight: 400;
   line-height: 1.25;
   color: rgba(255, 255, 255, 1);
@@ -625,50 +625,6 @@ body:not(.landing-page) header h2 {
   width: 100%;
   max-width: 800px;
 }
-.accordion-group {
-  width: 100%;
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-.accordion {
-  width: 100%;
-}
-
-.accordion-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  cursor: pointer;
-  user-select: none;
-  padding: 1rem 0;
-}
-
-.accordion-header h2 {
-  margin: 0;
-}
-
-.accordion-toggle {
-  font-size: 1.5rem;
-  font-weight: 300;
-  line-height: 1;
-  color: #1a1a2e;
-}
-
-.accordion-body {
-  display: grid;
-  grid-template-rows: 0fr;
-  transition: grid-template-rows 0.4s ease;
-}
-
-.accordion-body.open {
-  grid-template-rows: 1fr;
-}
-
-.accordion-body > .intro {
-  overflow: hidden;
-}
-
 .intro p {
   font-style: italic;
   margin: 0;
@@ -679,12 +635,6 @@ body:not(.landing-page) header h2 {
   font-style: italic;
   padding: 1rem 0;
   margin: 0;
-}
-
-.accordion-rule {
-  width: 100%;
-  height: 1px;
-  background: #1a1a2e;
 }
 
 @keyframes fadeIn {
@@ -706,6 +656,52 @@ body:not(.landing-page) header h2 {
 
 .intro p { margin-bottom: 1rem; }
 .intro p:last-child { margin-bottom: 0; }
+
+/* =====================================================================
+   SEQUENTIAL REVEAL
+   ===================================================================== */
+
+/* Hidden state for sequenced headings and paragraphs */
+.seq-heading,
+.seq-para {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.75s cubic-bezier(.22,1,.36,1),
+              transform 0.75s cubic-bezier(.22,1,.36,1);
+  pointer-events: none;
+}
+
+.seq-heading.revealed,
+.seq-para.revealed {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* Floating Next button */
+#next-btn {
+  position: fixed;
+  bottom: 2.5rem;
+  right: 2.5rem;
+  z-index: 200;
+  font-family: "Source Code Pro", monospace;
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #fff;
+  background: var(--primary);
+  border: none;
+  border-radius: 99px;
+  padding: 0.7rem 1.6rem;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.18);
+  transition: background 0.2s, transform 0.15s, opacity 0.4s;
+}
+
+#next-btn:hover {
+  background: var(--accent);
+  transform: scale(1.05);
+}
 
 /* =====================================================================
    EXPERIMENTS SECTION
@@ -1214,3 +1210,84 @@ body:not(.landing-page) .modal-box {
 /* =====================================================================
    END OF combined.css
    ===================================================================== */
+
+   /* make the main area snap to full-screen panels for a nicer scroll feel */
+main#about {
+  scroll-snap-type: y mandatory; /* optional; remove if undesired */
+  overflow-x: hidden;
+}
+
+/* container of the panels */
+.intro-sections {
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* each panel covers the viewport and centers content */
+.panel {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  box-sizing: border-box;
+  scroll-snap-align: start; /* optional */
+  background: var(--muted);
+  border-bottom: 2px solid var(--primary);
+  opacity: 0;
+  transform: translateY(6vh);
+  transition: opacity 0.9s cubic-bezier(.22,1,.36,1), transform 0.9s cubic-bezier(.22,1,.36,1);
+}
+
+/* visible when scrolled into view */
+.panel.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* inner wrapper keeps text tidy and centered */
+.panel-inner {
+  max-width: 1200px;
+  width: 100%;
+  text-align: center;
+  padding: 2rem;
+}
+
+/* MASSIVE headings so they cover the screen visually */
+.panel h2 {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  margin: 0 0 1rem 0;
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  /* huge, responsive scaling that will visually dominate the viewport */
+  font-size: clamp(3.5rem, 18vw, 12rem); /* tweak if you want even bigger */
+  font-weight: 400;
+  color: var(--foreground);
+  text-wrap: balance;
+}
+
+/* paragraph text also large so it reads like a subtitle across the screen */
+.panel p {
+  margin: 0 auto;
+  font-family: "Source Code Pro", monospace;
+  font-size: clamp(1.25rem, 2.8vw, 2.6rem);
+  max-width: 1000px;
+  color: rgba(26,26,46,0.95);
+  font-style: italic;
+  margin-top: 1rem;
+  opacity: 0.95;
+}
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .panel, .panel.visible {
+    transition: none;
+    transform: none;
+  }
+}
+
+/* smaller screens adjustments */
+@media (max-width: 520px) {
+  .panel p { font-size: 1.0rem; }
+  .panel h2 { font-size: clamp(2.4rem, 18vw, 7rem); }
+}

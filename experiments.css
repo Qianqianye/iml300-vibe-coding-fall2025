@@ -1,0 +1,441 @@
+/* ─── Reset & Base ─────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { overflow-x: hidden; scroll-behavior: smooth; }
+
+    body {
+      background: #000000;
+      color: #fff;
+      font-family: 'Share Tech Mono', monospace;
+      min-height: 100vh;
+      overflow-x: hidden;
+      opacity: 0;
+      transform: translateY(18px);
+      animation: landingFadeUp 0.85s cubic-bezier(0.22, 1, 0.36, 1) forwards 0.3s;
+    }
+
+    @keyframes landingFadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ─── Category Colors ────────────────────────────────────── */
+    :root {
+      --color-0: #9acd32;   /* 1: Generative Art — yellow-green */
+      --color-1: #00d4ff;   /* 2: Interface — cyan */
+      --color-2: #ff6b35;   /* 3: Hello Internet — orange */
+      --color-3: #c084fc;   /* 4: Surveillance & Identity — purple */
+      --color-4: #f43f5e;   /* 5: Glitch & Poor Image — red/rose */
+      --color-5: #fb923c;   /* 6: Machine Oppression — amber-orange */
+      --color-6: #34d399;   /* 7: Data Heal — emerald */
+      --color-7: #60a5fa;   /* 8: Critical Access — blue */
+      --color-8: #e879f9;   /* 9: Algorithmic Resistance — fuchsia */
+      --color-9: #facc15;   /* 10: Live Coding & Performance — yellow */
+    }
+
+    /* ─── Grain Overlay ─────────────────────────────────────── */
+    .grain {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      pointer-events: none;
+      opacity: 0.3;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 128px 128px;
+    }
+
+    /* ─── Layout ─────────────────────────────────────────────── */
+    .page-wrapper {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 6vh 5vw 10vh;
+    }
+
+    /* ─── Page Header ─────────────────────────────────────────── */
+    .page-header {
+      margin-bottom: 7vh;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      padding-bottom: 4vh;
+    }
+
+    .eyebrow {
+      font-family: 'VT323', monospace;
+      font-size: clamp(1.2rem, 2.2vw, 1.75rem);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.85);
+      margin-bottom: 0.5rem;
+    }
+
+    .page-title {
+      font-family: 'Bitcount Grid Double', monospace;
+      font-size: clamp(2.4rem, 6vw, 5rem);
+      font-weight: 400;
+      line-height: 1;
+      color: #fff;
+      letter-spacing: -0.01em;
+    }
+
+    .page-title span {
+      color: yellowgreen;
+    }
+
+    .page-subtitle {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 1.1rem;
+      color: rgba(255,255,255,0.7);
+      margin-top: 1.2rem;
+      letter-spacing: 0.1em;
+    }
+
+    /* ─── Filter Bar ──────────────────────────────────────────── */
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 5vh;
+      align-items: center;
+    }
+
+    .filter-label {
+      font-family: 'VT323', monospace;
+      font-size: 1.4rem;
+      color: rgba(255,255,255,0.35);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-right: 0.5rem;
+    }
+
+    .filter-btn {
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.15);
+      color: rgba(255,255,255,0.7);
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.85rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.4rem 1rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .filter-btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: yellowgreen;
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.2s ease;
+      z-index: 0;
+    }
+
+    .filter-btn span { position: relative; z-index: 1; }
+
+    .filter-btn:hover {
+      border-color: yellowgreen;
+      color: #0a0a0a;
+    }
+
+    .filter-btn:hover::before { transform: scaleX(1); }
+
+    .filter-btn.active {
+      border-color: yellowgreen;
+      color: #0a0a0a;
+      background: yellowgreen;
+    }
+
+    /* ─── Experiments Grid ────────────────────────────────────── */
+    .experiments-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    /* ─── Experiment Block ────────────────────────────────────── */
+    .experiment-block {
+      border-top: 1px solid rgba(255,255,255,0.08);
+      transition: opacity 0.3s ease;
+    }
+
+    .experiment-block:last-child {
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .experiment-block.filtered-out {
+      display: none;
+    }
+
+    /* ─── Experiment Header (accordion trigger) ───────────────── */
+    .exp-header {
+      display: grid;
+      grid-template-columns: 3.5rem 1fr auto;
+      align-items: center;
+      gap: 1.5rem;
+      padding: 2rem 0;
+      cursor: pointer;
+      transition: background 0.2s ease;
+      user-select: none;
+    }
+
+    .exp-header:hover .exp-title-text {
+      color: var(--cat-color, yellowgreen);
+    }
+
+    .exp-header:hover .exp-num {
+      color: var(--cat-color, yellowgreen);
+    }
+
+    .exp-num {
+      font-family: 'VT323', monospace;
+      font-size: 2.6rem;
+      color: rgba(255,255,255,0.24);
+      transition: color 0.2s ease;
+      line-height: 1;
+    }
+
+    .exp-title-wrap { overflow: hidden; }
+
+    .exp-title-text {
+      font-family: 'Bitcount Grid Double', monospace;
+      font-size: clamp(1.2rem, 2.6vw, 1.9rem);
+      font-weight: 400;
+      color: rgba(255,255,255,0.9);
+      transition: color 0.25s ease;
+      line-height: 1.2;
+    }
+
+    .exp-meta {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.88rem;
+      color: rgba(255,255,255,0.6);
+      letter-spacing: 0.1em;
+      margin-top: 0.3rem;
+    }
+
+    .exp-toggle {
+      font-size: 1.4rem;
+      color: rgba(255,255,255,0.3);
+      transition: transform 0.35s cubic-bezier(0.77, 0, 0.175, 1), color 0.2s ease;
+      line-height: 1;
+      font-family: 'Share Tech Mono', monospace;
+      flex-shrink: 0;
+    }
+
+    .experiment-block.open .exp-toggle {
+      transform: rotate(45deg);
+      color: var(--cat-color, yellowgreen);
+    }
+
+    .experiment-block.open .exp-num {
+      color: var(--cat-color, yellowgreen);
+    }
+
+    /* ─── Accordion Body ──────────────────────────────────────── */
+    .exp-body {
+      display: none;
+      padding-bottom: 3rem;
+    }
+
+    .exp-body-inner {
+      display: grid;
+      grid-template-columns: 3.5rem 1fr;
+      gap: 0 1.5rem;
+    }
+
+    .exp-body-content { grid-column: 2; }
+
+    /* References */
+    .section-label {
+      font-family: 'VT323', monospace;
+      font-size: 1.4rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 0.75rem;
+    }
+
+    .refs-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .ref-link {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.45);
+      text-decoration: none;
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 0.35rem 0.85rem;
+      letter-spacing: 0.08em;
+      transition: all 0.2s ease;
+      display: inline-block;
+    }
+
+    .ref-link:hover {
+      color: var(--cat-color, salmon);
+      border-color: var(--cat-color, salmon);
+      transform: translateY(-2px);
+    }
+
+    /* Projects Grid */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1px;
+      background: rgba(255,255,255,0.05);
+    }
+
+    .project-card {
+      background: #0a0a0a;
+      padding: 1.2rem 1.2rem 1rem;
+      text-decoration: none;
+      display: block;
+      position: relative;
+      transition: background 0.2s ease;
+      overflow: hidden;
+    }
+
+    .project-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--cat-color, yellowgreen);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.25s ease;
+    }
+
+    .project-card:hover {
+      background: color-mix(in srgb, var(--cat-color, yellowgreen) 5%, #0a0a0a);
+    }
+
+    .project-card:hover::after {
+      transform: scaleX(1);
+    }
+
+    .project-card:hover .proj-title {
+      color: var(--cat-color, yellowgreen);
+    }
+
+    .proj-student {
+      font-family: 'VT323', monospace;
+      font-size: 1.25rem;
+      color: rgba(255,255,255,0.5);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 0.3rem;
+    }
+
+    .proj-title {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 1rem;
+      color: rgba(255,255,255,0.85);
+      line-height: 1.4;
+      transition: color 0.2s ease;
+    }
+
+    .proj-arrow {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.25);
+      transition: color 0.2s ease, transform 0.2s ease;
+    }
+
+    .project-card:hover .proj-arrow {
+      color: var(--cat-color, yellowgreen);
+      transform: translate(2px, -2px);
+    }
+
+    /* ─── Scroll hint ──────────────────────────────────────────── */
+    .scroll-hint {
+      position: fixed;
+      bottom: 2.5vh;
+      right: 3vw;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      opacity: 1;
+      transition: opacity 0.6s ease;
+      pointer-events: none;
+    }
+
+    .scroll-hint.hidden { opacity: 0; }
+
+    .scroll-hint-text {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.35);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+
+    .scroll-arrow {
+      font-size: 1.1rem;
+      color: rgba(255,255,255,0.4);
+      animation: nudgeDown 1.6s ease-in-out infinite;
+    }
+
+    @keyframes nudgeDown {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(5px); }
+    }
+
+    /* ─── Count badge ──────────────────────────────────────────── */
+    .count-badge {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.25);
+      letter-spacing: 0.1em;
+      margin-left: 0.5rem;
+    }
+
+    /* ─── Typewriter for experiment titles ─────────────────────── */
+    .exp-title-text {
+      white-space: nowrap;
+      overflow: hidden;
+    }
+
+    /* cursor blink on the typing title */
+    .exp-title-text.typing::after {
+      content: '▌';
+      display: inline-block;
+      color: var(--cat-color, yellowgreen);
+      animation: cursorBlink 0.6s step-end infinite;
+      margin-left: 2px;
+      font-size: 0.85em;
+    }
+
+    .exp-title-text.done::after {
+      display: none;
+    }
+
+    @keyframes cursorBlink {
+      50% { opacity: 0; }
+    }
+
+    /* ─── Responsive ────────────────────────────────────────────── */
+    @media (max-width: 640px) {
+      .exp-header {
+        grid-template-columns: 2.2rem 1fr auto;
+        gap: 1rem;
+        padding: 1.4rem 0;
+      }
+      .exp-body-inner {
+        grid-template-columns: 2.2rem 1fr;
+      }
+      .projects-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+      .page-wrapper { padding: 4vh 5vw 8vh; }
+    }

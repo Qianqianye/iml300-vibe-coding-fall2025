@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vibe Coding — Experiments</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bitcount+Grid+Double:wght@100..900&family=Rubik+80s+Fade&family=Share+Tech+Mono&family=VT323&display=swap" rel="stylesheet" />
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <link rel="stylesheet" href="experiments.css" />
+</head>
+
+<body>
+  <div class="grain"></div>
+
+  <div class="page-wrapper">
+
+    <!-- ── Page Header ── -->
+    <header class="page-header">
+      <p class="eyebrow">Loading... [Student Work Archive]</p>
+      <h1 class="page-title">Experiments<span>_</span></h1>
+      <p class="page-subtitle">An index of student experiments in vibe coding.</p>
+    </header>
+
+    <!-- ── Filter Bar ── -->
+    <div class="filter-bar" id="filterBar">
+      <span class="filter-label">Filter //</span>
+      <button class="filter-btn active" data-filter="all"><span>All</span></button>
+    </div>
+
+    <!-- ── Experiments List ── -->
+    <div class="experiments-list" id="experimentsList"></div>
+
+  </div>
+
+  <!-- Scroll Hint -->
+  <div class="scroll-hint" id="scrollHint">
+    <span class="scroll-hint-text">Scroll</span>
+    <span class="scroll-arrow">↓</span>
+  </div>
+
+  <script src="experiments.js"></script>
+</body>
+</html>

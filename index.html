@@ -6,44 +6,24 @@
   <title>IML300 Fall 2025 — Vibe Coding Showcase</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
+  <link rel="stylesheet" href="index.css">
 </head>
-<body class="landing-page">
-
-  <div class="landing-bg"></div>
-  <div class="landing-grain"></div>
-
+<body>
+  <div class="grain"></div>
   <div class="landing-ui">
-    <div class="landing-claude-panel">
-      <p class="landing-eyebrow">Experiments with AI and Vibe Coding in Education</p>
-      <h1 class="landing-heading">What would you like<br>to vibe code today?</h1>
-
-      <div class="landing-input-wrap">
-        <span class="landing-input-text">Explore student experiments →</span>
-        <a href="page-2.html" class="landing-send-btn" aria-label="Enter showcase">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M2 8h12M9 3l5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </a>
-      </div>
-
-      <div class="landing-chips">
-        <a href="page-2.html#experiment-1" class="landing-chip">Generative Art/Code</a>
-        <a href="page-2.html#experiment-2" class="landing-chip">Interface</a>
-        <a href="page-2.html#experiment-3" class="landing-chip">Hello Internet</a>
-        <a href="page-2.html#experiment-4" class="landing-chip">Surveillance &amp; Identity</a>
-        <a href="page-2.html#experiment-5" class="landing-chip">Glitch &amp; Poor Image</a>
-        <a href="page-2.html#experiment-6" class="landing-chip">Machine Oppression</a>
-        <a href="page-2.html#experiment-7" class="landing-chip">Data Heal & Digital Decolonization</a>
-        <a href="page-2.html#experiment-8" class="landing-chip">Critical Access</a>
-        <a href="page-2.html#experiment-9" class="landing-chip">Algorithmic Resistance</a>
-        <a href="page-2.html#experiment-10" class="landing-chip">Live Coding &amp; Performance</a>
-      </div>
-    </div>
+    <p class="landing-eyebrow"
+       data-line1="Loading..."
+       data-line2="[Experiments with AI and Vibe Coding in Education]">
+  </p>
+    <h1 class="landing-heading"
+        data-text="WHAT WOULD YOU LIKE TO "
+        data-link-text="VIBE CODE"
+        data-link-href="intro.html"
+        data-text-after=" TODAY?">
+    </h1>
   </div>
 
-  <script src="landing.js"></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="index.js"></script>
 </body>
 </html>

@@ -1,0 +1,217 @@
+@import url('https://fonts.googleapis.com/css2?family=Bitcount+Grid+Double:wght@100..900&family=Rubik+80s+Fade&family=Share+Tech+Mono&family=VT323&display=swap');
+
+html {
+  overflow: hidden; /* prevents black bar from body's translateY(18px) entrance animation */
+}
+
+body{
+  margin: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background: rgb(0, 0, 0);
+  box-sizing: border-box;
+}
+
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.3;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 128px 128px;
+}
+
+.landing-ui {
+  margin: 5% auto;
+  position: fixed;
+  max-width: 90%;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  justify-content: center;
+  text-align: left;
+  pointer-events: auto;
+  gap: 0;
+}
+
+body.page{
+  padding: 5%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  opacity: 0;
+  transform: translateY(18px);
+  animation: landingFadeUp 0.85s cubic-bezier(0.22, 1, 0.36, 1) forwards 0.3s;
+}
+
+@keyframes landingFadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Slides */
+.slides-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 180vw; /* 2 horizontal slides × 90vw */
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  transition: transform 0.75s cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+.slide {
+  flex: 0 0 90vw;
+  height: 100vh;
+  box-sizing: border-box;
+  padding: 5vh 5vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.slide:nth-child(n+3) {
+  margin-left: 90vw;
+}
+
+.typing-cursor {
+  display: inline-block;
+  width: 0.08em;
+  height: 1em;
+  background: currentColor;
+  margin-left: 2px;
+  vertical-align: text-bottom;
+  animation: blink 0.75s step-end infinite;
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+h2 {
+  font-family: "Bitcount Grid Double", monospace;
+  margin: auto;
+  font-weight: 400;
+  font-size: 5rem;
+  color: rgba(255, 255, 255, 1);
+}
+
+h3 {
+  font-family: "VT323", monospace;
+  margin: auto;
+  font-weight: 300;
+  font-size: 3rem;
+  color: navajowhite;
+}
+
+.afterFade{
+  display: none;
+}
+
+a{
+  text-decoration: none;
+  color: yellowgreen;
+  display: inline-block;
+  transition: ease-in-out 0.2s;
+}
+
+a:hover{
+  color: salmon;
+  scale: 1.1;
+}
+
+p {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 1.2rem;
+  font-weight: 200;
+  color: rgb(255, 255, 255);
+  line-height: 1.5;
+}
+
+p.quote {
+  max-width: 80%;
+  margin-left: 10%;
+  font-weight: 100;
+  font-size: 1.2rem;
+  color: rgba(255, 255, 255, 0.95);
+  margin-top: 1rem;
+}
+
+p.landing-eyebrow {
+  font-family: "VT323", monospace;
+  font-weight: 400;
+  font-size: 2.2vw;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+h1 {
+  width: 90%;
+  font-family: 'Rubik 80s Fade';
+  font-size: 8vw;
+  font-weight: 400;
+  line-height: 1;
+  color: rgba(255, 255, 255, 1);
+  letter-spacing: -0.01em;
+  margin: 0;
+  min-height: 1.1em;
+}
+
+/* Scroll arrow hint */
+.scroll-hint {
+  position: fixed;
+  bottom: 2.5vh;
+  right: 3vw;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  opacity: 1;
+  transition: opacity 0.6s ease;
+  pointer-events: none;
+}
+
+.scroll-hint.hidden {
+  opacity: 0;
+}
+
+.scroll-hint-text {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.45);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.scroll-arrow {
+  font-size: 1.4rem;
+  color: rgba(255, 255, 255, 0.55);
+  animation: nudgeRight 1.6s ease-in-out infinite;
+}
+
+@keyframes nudgeRight {
+  0%, 100% { transform: translateX(0); }
+  50%       { transform: translateX(6px); }
+}
+
+@keyframes nudgeDown {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(6px); }
+}
+
+.scroll-arrow.nudge-right {
+  animation: nudgeRight 1.6s ease-in-out infinite;
+}
+
+.scroll-arrow.nudge-down {
+  animation: nudgeDown 1.6s ease-in-out infinite;
+}
