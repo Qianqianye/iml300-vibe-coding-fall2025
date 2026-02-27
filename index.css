@@ -128,6 +128,15 @@ a:hover{
   scale: 1.1;
 }
 
+a.outside{
+  color:  coral;
+}
+
+a.outside:hover{
+  color: yellowgreen;
+  scale: 1.1;
+}
+
 p {
   font-family: 'Share Tech Mono', monospace;
   font-size: 1.2rem;
