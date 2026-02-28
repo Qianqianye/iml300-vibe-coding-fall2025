@@ -35,8 +35,15 @@ body{
   align-items: left;
   justify-content: center;
   text-align: left;
-  pointer-events: auto;
+  pointer-events: none; /* let clicks/hovers pass through to bg tiles */
   gap: 0;
+}
+
+/* Re-enable pointer events only on actual interactive elements */
+.landing-ui a,
+.landing-ui p,
+.landing-ui h1 {
+  pointer-events: auto;
 }
 
 body.page{
@@ -223,4 +230,101 @@ h1 {
 
 .scroll-arrow.nudge-down {
   animation: nudgeDown 1.6s ease-in-out infinite;
+}
+
+/* ─── CCTV Background Grid ─────────────────────────────────────────── */
+
+.bg-grid {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 2px;
+  pointer-events: auto;
+  /* dark overlay so the landing text stays legible */
+  background: #000;
+}
+
+/* Darken the whole grid so text in front is readable */
+.bg-grid::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.2);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.bg-tile {
+  position: relative;
+  overflow: hidden;
+  display: block;
+  cursor: pointer;
+  /* override global a styles */
+  color: inherit;
+  scale: 1 !important; /* kill the global a:hover scale */
+  filter:brightness(60%);
+}
+
+/* kill global a:hover colour change inside tiles */
+.bg-tile:hover {
+  color: inherit;
+  scale: 1 !important;
+  filter: brightness(90%);
+}
+
+.bg-tile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  /* greyscale by default */
+  filter: grayscale(1) brightness(0.55) contrast(1.1);
+  transition: filter 0.35s ease, transform 0.5s ease;
+}
+
+.bg-tile:hover img {
+  /* reveal colour on hover */
+  filter: grayscale(0) brightness(0.75) contrast(1.05);
+  transform: scale(1.04);
+}
+
+/* LIVE label */
+.tile-label {
+  position: absolute;
+  bottom: 6px;
+  right: 8px;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  color: rgba(255, 255, 255, 0.6);
+  z-index: 3;
+  pointer-events: none;
+}
+
+/* Subtle scanline overlay per tile */
+.bg-tile::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent,
+    transparent 3px,
+    rgba(0, 0, 0, 0.08) 3px,
+    rgba(0, 0, 0, 0.08) 4px
+  );
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Make sure landing UI sits above the overlay */
+.landing-ui {
+  z-index: 20;
+}
+
+.grain {
+  z-index: 5;
 }
